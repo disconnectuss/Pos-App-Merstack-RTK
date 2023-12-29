@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalnia&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  /* background-color: black;
+  color: white; */
+  margin: 0;
+  font-family: 'Kalnia', serif;
+}
+
+.addToOrder{
+  background-color: rgb(138, 192, 100);
+}
+@media (min-width: 768px){
+    /* body {
+    overflow: hidden;
+    } */
+    .antd-btn{
+    background-color:#457df5;
+    }
+    .categories::-webkit-scrollbar {
+    display: none;
+    }
+
+}
+.cartAdd,
+.printBtn,
+.submitBtn {
+  background-color: rgb(0, 110, 255);
+}
