@@ -9,3 +9,4 @@ Currently, two official plugins are available:
 # PosApp-Reduxtoolkit-Fullstack
 # PosApp-ReactRedux-Fullstack
 # PosApp-ReactRedux-Fullstack
+# PosApp-ReactRedux-Fullstack
