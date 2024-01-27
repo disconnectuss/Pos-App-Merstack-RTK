@@ -12,3 +12,4 @@ Currently, two official plugins are available:
 # PosApp-ReactRedux-Fullstack
 # PosApp-ReactRedux-Fullstack
 # PosApp-ReactRedux-Fullstack
+# PosApp-ReactRedux-Fullstack
