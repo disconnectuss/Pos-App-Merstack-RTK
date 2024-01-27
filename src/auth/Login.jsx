@@ -13,18 +13,6 @@ const Register = () => {
           </h1>
           <Form layout="vertical">
             <Form.Item
-              label="Username"
-              name={"username"}
-              rules={[
-                {
-                  required: true,
-                  message: "Please fill the username!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
               label="E-mail Address"
               name={"email"}
               rules={[
@@ -48,18 +36,6 @@ const Register = () => {
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item
-              label="Password (again)"
-              name={"passwordAgain"}
-              rules={[
-                {
-                  required: true,
-                  message: "Ş<enter your password again!>",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
             <Form.Item>
               <Button
                 type="primary"
@@ -67,14 +43,14 @@ const Register = () => {
                 className="submitBtn  w-full"
                 size="large"
               >
-                Sign Up
+                Login
               </Button>
             </Form.Item>
           </Form>
           <div className="flex justify-center absolute left-0 bottom-10 w-full">
-            Do you have already an account?&nbsp;
-            <Link to="/login" className="text-blue-600">
-              Log in
+            Don't you have an account?&nbsp;
+            <Link to="/register" className="text-blue-600">
+              Sign up
             </Link>
           </div>
         </div>
@@ -93,7 +69,7 @@ const Register = () => {
                     <AuthCarousel 
                       img="/images/stats.png"
                       title="Statistics"
-                      desc="Statistics and analysis"
+                      desc="Statistics and analyses"
                     />
                     <AuthCarousel 
                       img="/images/customer.png"

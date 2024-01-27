@@ -5,10 +5,7 @@ import InvoicePage from "./pages/InvoicePage";
 import CustomerPage from "./pages/CustomerPage";
 import StatisticPage from "./pages/StatisticPage";
 import Register from "./auth/Register";
-
-
-
-Home
+import Login from "./auth/Login";
 
 
 function App() {
@@ -21,11 +18,8 @@ function App() {
       <Route path='/customers' element={<CustomerPage/>}/>
       <Route path='/statistics' element={< StatisticPage/>}/>
       <Route path='/register' element={< Register/>}/>
-
-
+      <Route path='/login' element={< Login/>}/>
     </Routes>
-
-
     </BrowserRouter>
   );
 }
