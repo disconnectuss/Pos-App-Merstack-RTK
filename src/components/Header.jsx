@@ -4,7 +4,7 @@ import {
   HomeOutlined,
   ShoppingCartOutlined,
   CopyOutlined,
-  UserOutlined,
+  TableOutlined,
   BarChartOutlined,
   LogoutOutlined
 } from "@ant-design/icons";
@@ -50,9 +50,9 @@ const Header = () => {
             <span className="md:text-[15px] text-[10px]">Invoice</span>
           </Link>
           {/* Customers */}
-          <Link to={"/customers"} className="menu-link flex flex-col hover:text-[gray] transition-all">
-            <UserOutlined className="md:text-3xl text-xl  text-red-800 " />
-            <span className="md:text-[15px] text-[10px]">Customers</span>
+          <Link to={"/tables"} className="menu-link flex flex-col hover:text-[gray] transition-all">
+            <TableOutlined className="md:text-3xl text-xl  text-red-800 " />
+            <span className="md:text-[15px] text-[10px]">Tables</span>
           </Link>
           {/* stats */}
           <Link to={"/statistics"} className="menu-link flex flex-col hover:text-[gray] transition-all">

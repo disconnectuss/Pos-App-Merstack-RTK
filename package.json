@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/charts": "^2.0.3",
     "antd": "^5.12.2",
+    "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.0"
