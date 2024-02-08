@@ -1,6 +1,5 @@
 const Category = require("../models/Category.js");
-const express = require("express");
-const router = express.Router();
+const router =require("express").Router();
 
 //read : get-all categories
 router.get("/get-all", async (req, res) => {
