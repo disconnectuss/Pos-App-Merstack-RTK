@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Header from '../components/Header'
+import Header from '../components/header/Header'
 import {Button, Table, Card} from "antd"
-import InvoiceModal from '../components/InvoiceModal'
+import InvoiceModal from '../components/invoices/InvoiceModal'
 
 
 

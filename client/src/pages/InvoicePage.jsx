@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import { Button, Table, Card } from "antd";
-import PrintInvoice from "../components/PrintInvoice";
+import PrintInvoice from "../components/invoices/PrintInvoice";
 
 const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

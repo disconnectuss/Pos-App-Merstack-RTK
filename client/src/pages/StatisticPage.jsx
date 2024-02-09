@@ -1,5 +1,5 @@
-import Header from "../components/Header";
-import StatCard from "../components/StatCard.jsx";
+import Header from "../components/header/Header";
+import StatCard from "../components/statistics/StatCard.jsx";
 import React, { useState, useEffect } from "react";
 import { Area, Pie } from "@ant-design/plots";
 
