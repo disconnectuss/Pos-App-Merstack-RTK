@@ -2,9 +2,8 @@ import { Button, Form, Input, message, Modal } from "antd";
 
 const Add = ({
     isAddModalOpen,
-    setIsAddModalOpen,
-    categories,
-    setCategories}) => {
+    closeModal
+    }) => {
         const [form] = Form.useForm();
         const handleSubmit = (values) => {
             try {
@@ -15,7 +14,7 @@ const Add = ({
               });
               message.success("Category successfully added!");
               form.resetFields();
-              setCategories([...categories, values]);
+              closeModal();
             } catch (error) {
               console.log(error);
             }
@@ -25,7 +24,7 @@ const Add = ({
        <Modal
           title="Add New Category"
           open={isAddModalOpen}
-          onCancel={() => setIsAddModalOpen(false)}
+          onCancel={closeModal}
           footer={false}
         >
           <Form layout="vertical" onFinish={handleSubmit} form={form}>
