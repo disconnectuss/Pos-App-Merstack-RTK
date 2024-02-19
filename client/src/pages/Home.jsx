@@ -5,8 +5,24 @@ import Header from "../components/header/Header";
 import Products from "../components/products/Products";
 
 const Home = () => {
+  const [categories, setCategories] = useState([]);
 
-
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/categories/get-all");
+        const data = await res.json();
+        data && 
+        setCategories(data.map((item)=> {
+          return {...item, value: item.title}
+        }));
+        // console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCategories();
+  }, []);
 
   return (
     <>
@@ -16,11 +32,11 @@ const Home = () => {
           className="categories overflow-auto max-h-[calc(100vh_-_112px)]
         md:pb-10 "
         >
-          <Categories />
+          <Categories categories={categories} setCategories={setCategories} />
         </div>
         {/* md:mr-0 -mr[20px] md:pr-0 pr-10 */}
-        <div className="products flex-[8] max-h-[calc(100vh_-_112px)] overflow-y-auto pb-10">
-          <Products />
+        <div className="products flex-[8] max-h-[calc(100vh_-_112px)] overflow-auto pb-10">
+          <Products categories={categories} setCategories={setCategories} />
         </div>
         <div className="total min-w-[300px] md:-mr-[24px] md:-mt-[[24px] border">
           <CartTotal />

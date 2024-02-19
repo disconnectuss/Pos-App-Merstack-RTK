@@ -3,11 +3,12 @@ import { Button, Form, Input, message, Modal, Table } from "antd";
 
 const Edit = ({
   isEditModalOpen,
-  closeEditModal,
-  closeDeleteModal,
+  setIsEditModalOpen,
   categories,
+  setCategories,
 }) => {
   const [editRow, setEditRow] = useState({});
+  const [isModalVisible, setIsModalVisible]= useState(false)
 
   const onFinish = (values) => {
     try {
@@ -17,11 +18,19 @@ const Edit = ({
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
       message.success("Successfully updated!");
-      closeEditModal();
+      setCategories(
+        categories.map((item) => {
+          if (item._id === editRow._id) {
+            return { ...item, title: values.title };
+          }
+          return item;
+        })
+      );
     } catch (error) {
-      message.error("Oop! Something went wrong!");
+      message.error("Oops! Something went wrong!");
     }
   };
+
   const deleteRow = (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
       try {
@@ -31,9 +40,9 @@ const Edit = ({
           headers: { "Content-type": "application/json; charset=UTF-8" },
         });
         message.success("Successfully deleted!");
-        closeDeleteModal();
+        setCategories(categories.filter((item) => item._id !== id));
       } catch (error) {
-        message.error("Oop! Something went wrong!");
+        message.error("Oops! Something went wrong!");
       }
     }
   };
@@ -42,7 +51,6 @@ const Edit = ({
     {
       title: "Category Title",
       dataIndex: "title",
-      //
       render: (_, record) => {
         if (record._id === editRow._id) {
           return (
@@ -68,12 +76,18 @@ const Edit = ({
             >
               Edit
             </Button>
-            <Button type="link" htmlType="submit" className="text-gray-500">
+            <Button
+              type="link"
+              htmlType="submit"
+              className="text-gray-500"
+              onClick={onFinish}
+            >
               Save
             </Button>
-            <Button type="link" danger 
-             onClick={() => deleteRow(record._id)}
-             
+            <Button
+              type="link"
+              danger
+              onClick={() => deleteRow(record._id)}
             >
               Delete
             </Button>
@@ -82,12 +96,13 @@ const Edit = ({
       },
     },
   ];
+
   return (
     <Modal
-      open={isEditModalOpen}
+      open={isEditModalOpen} 
       title="Category Management"
       footer={false}
-      onCancel={closeEditModal}
+      onCancel={() => setIsEditModalOpen(false)}
     >
       <Form onFinish={onFinish}>
         <Table

@@ -1,41 +1,15 @@
-import "./style.css";
 import { PlusOutlined, EditOutlined } from "@ant-design/icons";
-import { Form, Modal, Input, Button, message } from "antd";
-import { useState,useEffect } from "react";
+// import { Form, Modal, Input, Button, message } from "antd";
+import { useState, useEffect } from "react";
 import Add from "./Add";
 import Edit from "./Edit";
+import "./style.css";
 
 
-const Categories = () => {
-  const [categories, setCategories] = useState([]);
+const Categories = ({ categories, setCategories }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/api/categories/get-all");
-        const data = await res.json()
-        setCategories(data);
-        console.log(data)
-
-      } catch (error) {
-        console.log(error)
-      }
-    };
-    getCategories()
-  }, [isAddModalOpen,isEditModalOpen]);
-
-
-  const closeModal = ()=> {
-    setIsAddModalOpen(false)
-  }
-
-  const closeEditModal = ()=> {
-    setIsEditModalOpen (false)
-  }
-  const closeDeleteModal = ()=> {
-    setIsEditModalOpen (false)
-  }
+  console.log(isEditModalOpen, setIsEditModalOpen)
   return (
     <div>
       <ul className="flex gap-4 md:flex-col text-lg px-4 mb-0">
@@ -43,31 +17,33 @@ const Categories = () => {
           <li className="category-item" key={item._id}>
             <span>{item.title}</span>
           </li>
-        ))} 
+        ))}  
         <li
           className="category-item bg-purple-700 hover:opacity-80"
           onClick={() => setIsAddModalOpen(true)}
         >
           <PlusOutlined className="md:text-2xl" />
-        
         </li>
         <li
-          className="category-item bg-purple-700 hover:opacity-80"
+          className="category-item bg-orange-700 hover:opacity-80"
           onClick={() => setIsEditModalOpen(true)}
         >
           <EditOutlined className="md:text-2xl" />
         </li>
         <Add
-        isAddModalOpen={isAddModalOpen}
-        setIsAddModalOpen={setIsAddModalOpen}
-        closeModal={closeModal}
-      />
-        <Edit
-        isEditModalOpen={isEditModalOpen}
-        closeEditModal={closeEditModal}
-        closeDeleteModal={closeDeleteModal}
+          isAddModalOpen={isAddModalOpen}
+          setIsAddModalOpen={setIsAddModalOpen}
           categories={categories}
-      />
+          setCategories={setCategories}
+
+        />
+
+        <Edit
+          isEditModalOpen={isEditModalOpen}
+          setIsEditModalOpen={setIsEditModalOpen}
+          categories={categories}
+          setCategories={setCategories}
+        />
       </ul>
     </div>
   );
