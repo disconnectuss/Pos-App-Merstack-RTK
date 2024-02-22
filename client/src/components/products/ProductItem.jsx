@@ -4,11 +4,11 @@ const ProductItem = ({ item }) => {
   return (
     <div
       className="product-item border hover:shadow-lg cursor-pointer 
-       transition-all select-none "
+       transition-all select-none min-h-[160px] "
     >
       <div className="product-img">
         <img
-          className="h-25 object-contain w-full border-b"
+          className="h-20 object-cover w-full border-b"
           src={item.img}
           alt={item.title}
         />

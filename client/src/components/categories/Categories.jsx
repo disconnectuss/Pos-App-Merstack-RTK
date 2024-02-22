@@ -9,7 +9,7 @@ import "./style.css";
 const Categories = ({ categories, setCategories }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  console.log(isEditModalOpen, setIsEditModalOpen)
+ 
   return (
     <div>
       <ul className="flex gap-4 md:flex-col text-lg px-4 mb-0">

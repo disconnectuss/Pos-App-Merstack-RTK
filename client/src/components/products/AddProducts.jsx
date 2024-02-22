@@ -2,13 +2,18 @@ import { Button, Form, Input, message, Modal, Select } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Products from "./Products";
 
-const Add = ({ isAddModalOpen,setIsAddModalOpen, categories, closeModal, setProducts }) => {
+const AddProducts = ({
+  isAddModalOpen,
+  setIsAddModalOpen,
+  categories,
+  products = [],
+  setProducts,
+}) => {
   const [form] = Form.useForm();
-  
 
   const handleSubmit = (values) => {
     try {
-      fetch("http://localhost:3000/api/categories/add-products", {
+      fetch("http://localhost:3000/api/products/add-product", {
         method: "POST",
         body: JSON.stringify(values),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -16,24 +21,25 @@ const Add = ({ isAddModalOpen,setIsAddModalOpen, categories, closeModal, setProd
       message.success("Products successfully added!");
       form.resetFields();
       setProducts([
-        ...Products,
+        ...products,
         {
           ...values,
           _id: Math.random(),
           price: Number(values.price),
         },
       ]);
-      closeModal();
+      setIsAddModalOpen(false)
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div>
       <Modal
         title="Add New Products"
         open={isAddModalOpen}
-        onCancel={()=> setIsAddModalOpen(false)}
+        onCancel={() => setIsAddModalOpen(false)}
         footer={false}
       >
         <Form layout="vertical" onFinish={handleSubmit} form={form}>
@@ -77,7 +83,10 @@ const Add = ({ isAddModalOpen,setIsAddModalOpen, categories, closeModal, setProd
             name="category"
             label="Select a category"
             rules={[
-              { required: true, message: "Please ensure you've chosen!" },
+              {
+                required: true,
+                message: "Please ensure you've chosen a category!",
+              },
             ]}
           >
             <Select
@@ -105,4 +114,4 @@ const Add = ({ isAddModalOpen,setIsAddModalOpen, categories, closeModal, setProd
   );
 };
 
-export default Add;
+export default AddProducts;
