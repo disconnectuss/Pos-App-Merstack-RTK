@@ -9,9 +9,13 @@ import {
   LogoutOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 
 const Header = () => {
+  const cartItems = useSelector((state) => state.cart); 
+  // console.log(cartItems.cartItem.length)
   return (
     <div className="border-b mb-6">
       <header className="py-4 px-6 flex justify-between items-center gap-10">
@@ -38,7 +42,7 @@ const Header = () => {
             <span className="md:text-[15px] text-[10px]">Home</span>
           </Link>
           {/* basket */}
-          <Badge count={5} offset={[0,0]} className="md:flex hidden">
+          <Badge count={cartItems.cartItem.length} offset={[0,0]} className="md:flex hidden">
           <Link to={"/cart"} className="menu-link flex flex-col hover:text-[gray] transition-all">
             <ShoppingCartOutlined className="md:text-3xl text-xl text-red-800 " />
             <span className="md:text-[15px] text-[10px]">Basket</span>

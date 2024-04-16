@@ -4,8 +4,13 @@ import {
   PlusCircleOutlined,
   MinusCircleOutlined,
 } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFromCart } from "../../redux/slices/cartSlice";
 
 const CartTotal = () => {
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
   return (
     <div className="cart h-full max-h-[calc(100vh_-_120px)] flex flex-col">
       {/* calculation can be flexible */}
@@ -13,273 +18,62 @@ const CartTotal = () => {
         Orders
       </h2>
       <ul className="cart-items px-2 flex flex-col gap-y-3 pt-2 overflow-y-auto">
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
+        {cart.cartItem.map((item) => (
+          <li className="cart-item flex justify-between" key={item._id}>
+            <div className="flex items-center">
+              <img
+                className="w-16 h-16 object-cover cursor-pointer"
+                src={item.img}
+                alt=""
+                onClick={() => dispatch(deleteFromCart(item))}
+              />
+              <div className="flex flex-col ml-2">
+                <b>{item.title}</b>
+                <span>
+                  {" "}
+                  {item.price} € x {item.quantity}{" "}
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="font-bold">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
+            <div className="flex items-center gap-x-1">
+              <Button
+                type="primary"
+                size="small"
+                className="w-full flex items-center justify-center !rounded-full !text-black"
+                icon={<PlusCircleOutlined />}
+              />
+              <span className="font-bold">{item.quantity}</span>
+              <Button
+                type="primary"
+                size="small"
+                className="w-full flex items-center justify-center !rounded-full !text-black"
+                icon={<MinusCircleOutlined />}
+              />
             </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
-        <li className="cart-item flex justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-16 h-16 object-cover"
-              src="https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png"
-              alt=""
-            />
-            <div className="flex flex-col ml-2">
-              <b>Apple</b>
-              <span> 12₺ x 2 </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<PlusCircleOutlined />}
-            />
-            <span className="">1</span>
-            <Button
-              type="primary"
-              size="small"
-              className="w-full flex items-center justify-center !rounded-full !text-black"
-              icon={<MinusCircleOutlined />}
-            />
-          </div>
-        </li>
+          </li>
+        ))}
       </ul>
       <div className="cart-totals mt-auto">
         <div className="border-t border-b">
           <div className="flex justify-between p-2">
             <b>Total</b>
-            <span>99 ₺</span>
+            <span>{cart.total.toFixed(2)}</span>
           </div>
           <div className="flex justify-between p-2">
-            <b>Each 5%</b>
-            <span className="text-red-700"> +5.50 ₺</span>
+            <b>Each {cart.tax}%</b>
+            <span className="text-red-700">
+              {(cart.total * cart.tax) / 100 > 0
+                ? `${((cart.total * cart.tax) / 100).toFixed(2)}`
+                : 0}{" "}
+              €
+            </span>
           </div>
           <div className="border-b mt-4">
             <div className="flex justify-between p-2 border-t">
               <b>Cart Total</b>
-              <span>100 ₺</span>
+              <span>{cart.total + (cart.total * cart.tax) / 100 >0
+              ? (cart.total + (cart.total * cart.tax )/ 100).toFixed(2)
+            : 0} €</span>
             </div>
           </div>
         </div>

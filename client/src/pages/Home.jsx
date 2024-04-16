@@ -30,7 +30,7 @@ const Home = () => {
       <div className="home px-6 flex md:flex-row flex-col justify-between gap-3  md:pb-0 pb-24">
         <div
           className="categories overflow-auto max-h-[calc(100vh_-_112px)]
-        md:pb-10 "
+        md:pb-10"
         >
           <Categories categories={categories} setCategories={setCategories} />
         </div>
@@ -38,7 +38,7 @@ const Home = () => {
         <div className="products flex-[8] max-h-[calc(100vh_-_112px)] overflow-auto pb-10">
           <Products categories={categories} setCategories={setCategories} />
         </div>
-        <div className="total min-w-[300px] md:-mr-[24px] md:-mt-[[24px] border">
+        <div className="total min-w-[300px] md:-mr-[24px] md:-mt-[[24px] border h-screen">
           <CartTotal />
         </div>
       </div>
