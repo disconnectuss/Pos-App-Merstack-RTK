@@ -29,7 +29,8 @@ body {
 .cartAdd,
 .printBtn,
 .submitBtn,
-.categoryBtn{
+.categoryBtn,
+.confirmBtn{
   background-color: rgb(0, 110, 255);
 }
 

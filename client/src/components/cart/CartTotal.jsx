@@ -11,10 +11,12 @@ import {
   decrement,
   reset,
 } from "../../redux/slices/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const CartTotal = () => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <div className="cart h-full max-h-[calc(100vh_-_120px)] flex flex-col">
@@ -126,6 +128,7 @@ const CartTotal = () => {
           size="large"
           className="addToOrder w-full"
           disabled={cart.cartItem.length === 0}
+          onClick={(()=>navigate("/cart"))}
         >
           Add to Order
         </Button>

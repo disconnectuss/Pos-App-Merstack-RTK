@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/header/Header";
 import { Button, Table, Card } from "antd";
 import PrintInvoice from "../components/invoices/PrintInvoice";
@@ -8,6 +8,21 @@ const InvoicePage = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
+  const [invoices, setInvoices] = useState();
+
+  useEffect(() => {
+    const getInvoices = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/invoices/get-all`);
+        const data = await res.json();
+        setInvoices(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getInvoices();
+  }, []);
+
 
   const dataSource = [
     {
@@ -26,19 +41,22 @@ const InvoicePage = () => {
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Customer Name",
+      dataIndex: "customerName",
+      key: "customerName",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Customer Tel",
+      dataIndex: "customerTel",
+      key: "customerTel",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text)=> {
+        return <span>{text.substring(0, 10)}</span>
+      }
     },
   ];
   return (
@@ -46,7 +64,7 @@ const InvoicePage = () => {
       <Header />
       <h1 className="text-4xl font-bold text-center mb-4">Invoices</h1>
       <Table
-        dataSource={dataSource}
+        dataSource={invoices}
         columns={columns}
         bordered
         pagination={false}

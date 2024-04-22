@@ -42,7 +42,7 @@ const Header = () => {
             <span className="md:text-[15px] text-[10px]">Home</span>
           </Link>
           {/* basket */}
-          <Badge count={cartItems.cartItem.length} offset={[0,0]} className="md:flex hidden">
+          <Badge count={cartItems.cartItem.length} offset={[-9,0]} className="md:flex hidden">
           <Link to={"/cart"} className="menu-link flex flex-col hover:text-[gray] transition-all">
             <ShoppingCartOutlined className="md:text-3xl text-xl text-red-800 " />
             <span className="md:text-[15px] text-[10px]">Basket</span>
@@ -69,7 +69,7 @@ const Header = () => {
             <span className="md:text-[15px] text-[10px]">Back</span>
           </a>
         </div>
-        <Badge count={5} offset={[0,10]} className="md:hidden flex " >
+        <Badge count={cartItems.cartItem.length} offset={[0,10]} className="md:hidden flex " >
           <Link to={"/"} className="menu-link flex flex-col hover:text-[gray] transition-all">
             <ShoppingCartOutlined className="md:text-2xl text-2xl text-red-800 p-2" />
             <span className="md:text-[15px] text-[10px]">Basket</span>
