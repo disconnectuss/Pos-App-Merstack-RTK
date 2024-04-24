@@ -101,7 +101,7 @@ const CartPage = () => {
       dataIndex: "total",
       key: "total",
       render: (text, record) => {
-        return <span>{(record.quantity * record.price).toFixed(2)} €</span>;
+        return <span>$ {(record.quantity * record.price).toFixed(2)}</span>;
       },
     },
     {

@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 //read : get-all invoices
-router.get("/get-all", async (req, res) => {
+router.get("/get-invoices", async (req, res) => {
   try {
     const invoices = await Invoice.find();
     res.status(200).json(invoices);

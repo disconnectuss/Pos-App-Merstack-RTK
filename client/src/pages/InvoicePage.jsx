@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/header/Header";
-import { Button, Table, Card } from "antd";
+import { Button, Table} from "antd";
 import PrintInvoice from "../components/invoices/PrintInvoice";
 
 const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+
   const [invoices, setInvoices] = useState();
 
   useEffect(() => {
     const getInvoices = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/invoices/get-all`);
+        const res = await fetch(`http://localhost:3000/api/invoices/get-invoices`);
         const data = await res.json();
         setInvoices(data);
       } catch (error) {
@@ -22,22 +20,7 @@ const InvoicePage = () => {
     };
     getInvoices();
   }, []);
-
-
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
+  console.log(invoices);
 
   const columns = [
     {
@@ -54,9 +37,38 @@ const InvoicePage = () => {
       title: "Date",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (text)=> {
-        return <span>{text.substring(0, 10)}</span>
-      }
+      render: (text) => {
+        return <span>{text.substring(0, 10)}</span>;
+      },
+    },
+    {
+      title: "Payment Method",
+      dataIndex: "paymentMethod",
+      key: "paymentMethod",
+    },
+    {
+      title: "Total",
+      dataIndex: "totalAmount",
+      key: "totalAmount",
+      render: (text) => {
+        return <span>$ {text}</span>
+      },
+    },
+    {
+      title: "Actions",
+      dataIndex: "action",
+      key: "action",
+      render: () => {
+        return (
+          <Button
+            type="link"
+            className="pl-0"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Print
+          </Button>
+        );
+      },
     },
   ];
   return (
@@ -69,19 +81,6 @@ const InvoicePage = () => {
         bordered
         pagination={false}
       />
-      <div className="cart-total flex justify-end mt-4">
-        <Card className="w-70 pr-2">
-          <Button
-            onClick={() => {
-              setIsModalOpen(true);
-            }}
-            className="cartAdd mt-4 w-full text-white"
-            size="large"
-          >
-            Print
-          </Button>
-        </Card>
-      </div>
       <PrintInvoice isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </>
   );

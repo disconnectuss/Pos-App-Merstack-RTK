@@ -9,6 +9,7 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async (values) => {
+  console.log(values)
     try {
       const res = await fetch(
         "http://localhost:3000/api/invoices/add-invoice",
@@ -52,14 +53,14 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
       >
         <Form layout={"vertical"} onFinish={onFinish}>
           <Form.Item
-            label={"Full Name"}
+            label={"Customer Name"}
             name={"customerName"}
             rules={[{ required: true, message: "Full Name is required" }]}
           >
             <Input placeholder="Enter Customer Name.." />
           </Form.Item>
           <Form.Item
-            label={"Phone Number"}
+            label={"Customer Tel"}
             name={"customerTel"}
             type="number"
             maxLength={13}
@@ -125,7 +126,7 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
                 Create Bill
               </Button>
             </div>
-          </Card>
+          </Card> 
         </Form>
       </Modal>
     </div>
