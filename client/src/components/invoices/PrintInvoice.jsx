@@ -1,6 +1,6 @@
 import { Button, Modal } from "antd";
 
-const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
+const PrintInvoice = ({ isModalOpen, setIsModalOpen, customer }) => {
   //
   return (
     <div>
@@ -37,11 +37,11 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
                   <div className="text-md text-slate-500">
                     <div>
                       <p className="font-bold text-slate-700">Invoice No:</p>
-                      <p>00041</p>
+                      <p>00 {Math.floor(Math.random() * 100)}</p>
                     </div>
                     <div>
                       <p className="font-bold text-slate-700 mt-2">Date:</p>
-                      <p>2022-11-21</p>
+                      <p>{customer?.createdAt.substring(0, 10)}</p>
                     </div>
                   </div>
                   <div className="text-md text-slate-500">
@@ -64,26 +64,25 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
                         scope="col"
                         className="py-3.5 pl-4 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0 sm:table-cell hidden"
                       >
-                        image
+                        Image
                       </th>
                       <th
                         scope="col"
                         className="py-3.5 pl-4 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0 sm:table-cell hidden"
                       >
-                        {" "}
-                        title
+                        Title
                       </th>
                       <th
                         scope="col"
                         className="py-3.5 pl-4 text-center text-sm font-normal text-slate-700 sm:pl-6 md:pl-0 sm:table-cell hidden"
                       >
-                        price
+                        Price
                       </th>
                       <th
                         scope="col"
                         className="py-3.5 pl-4 text-center text-sm font-normal text-slate-700 sm:pl-6 md:pl-0 sm:table-cell hidden"
                       >
-                        number
+                       Quantity
                       </th>
                       <th
                         scope="col"
@@ -94,99 +93,62 @@ const PrintInvoice = ({ isModalOpen, setIsModalOpen }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-slate-200">
-                      <td className="py-4 ">
-                        <img
-                          src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                          alt=""
-                          className="w-12 h-12 object-cover"
-                        />
-                      </td>
-                      <td className="py-4">
-                        <span className="font-medium">Şalgam</span>
-                      </td>
-                      <td className="py-4 text-center">
-                        <span>5₺</span>
-                      </td>
-                      <td className="py-4 text-center">
-                        <span>1</span>
-                      </td>
-                      <td className="py-4 text-end">
-                        <span>5.00₺</span>
-                      </td>
-                    </tr>
-                    <tr className="border-b border-slate-200">
-                      <td className="py-4 ">
-                        <img
-                          src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                          alt=""
-                          className="w-12 h-12 object-cover"
-                        />
-                      </td>
-                      <td className="py-4">
-                        <span className="font-medium">Şalgam</span>
-                      </td>
-                      <td className="py-4 text-center">
-                        <span>5₺</span>
-                      </td>
-                      <td className="py-4 text-center">
-                        <span>1</span>
-                      </td>
-                      <td className="py-4 text-end">
-                        <span>5.00₺</span>
-                      </td>
-                    </tr>
-                    <tr className="border-b border-slate-200">
-                      <td className="py-4 ">
-                        <img
-                          src="https://i.lezzet.com.tr/images-xxlarge-secondary/elma-nasil-yenir-221135ca-f383-474c-a4f5-ad02a45db978.jpg"
-                          alt=""
-                          className="w-12 h-12 object-cover"
-                        />
-                      </td>
-                      <td className="py-4">
-                        <span className="font-medium">Şalgam</span>
-                      </td>
-                      <td className="py-4 text-center">
-                        <span>5₺</span>
-                      </td>
-                      <td className="py-4 text-center">
-                        <span>1</span>
-                      </td>
-                      <td className="py-4 text-end">
-                        <span>5.00₺</span>
-                      </td>
-                    </tr>{" "}
-                   
+                    {customer?.cartItems.map((item) => (
+                      <tr className="border-b border-slate-200">
+                        <td className="py-4 ">
+                          <img
+                            src={item.img}
+                            alt=""
+                            className="w-12 h-12 object-cover"
+                          />
+                        </td>
+                        <td className="py-4">
+                          <span className="font-medium">{item.title}</span>
+                        </td>
+                        <td className="py-4 text-center">
+                          <span>$ {item.price.toFixed(2)}</span>
+                        </td>
+                        <td className="py-4 text-center">
+                          <span>{item.quantity}</span>
+                        </td>
+                        <td className="py-4 text-end">
+                          <span>$ {(item.price * item.quantity).toFixed(2)}</span>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                   <tfoot>
                     <tr>
                       <th className="text-right pt-6" colSpan="4" scope="row">
                         <span className="font-normal text-slate-700">
-                          total
+                          Subtotal
                         </span>
                       </th>
                       <th className="text-right pt-4" scope="row">
-                        <span className="font-normal text-slate-700">61₺</span>
+                        <span className="font-normal text-slate-700">$ {customer?.subTotal}</span>
                       </th>
                     </tr>
                     <tr>
                       <th className="text-right pt-4" colSpan="4" scope="row">
-                        <span className="font-normal text-slate-700">KDV</span>
+                        <span className="font-normal text-slate-700">Each {customer?.tax}%</span>
                       </th>
                       <th className="text-right pt-4" scope="row">
-                        <span className="font-normal text-red-600">+4.88₺</span>
+                        <span className="font-normal text-red-600"> ${(customer?.subTotal * customer?.tax) / 100 > 0
+                ? `${((customer?.subTotal * customer?.tax) / 100).toFixed(2)}`
+                : 0}{" "}</span>
                       </th>
                     </tr>
                     <tr>
                       <th className="text-right pt-4" colSpan="4" scope="row">
                         <span className="font-normal text-slate-700">
-                          bill Total
+                          Total
                         </span>
                       </th>
                       <th className="text-right pt-4" scope="row">
                         <span className="font-normal text-slate-700">
-                          65.88₺
+                          $ {customer?.subTotal + (customer?.subTotal * customer?.tax) / 100 > 0
+                  ? (customer?.subTotal + (customer?.subTotal * customer?.tax) / 100).toFixed(2)
+                  : 0}{" "}
                         </span>
                       </th>
                     </tr>

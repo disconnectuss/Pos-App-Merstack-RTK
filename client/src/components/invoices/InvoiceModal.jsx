@@ -17,7 +17,7 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
           method: "POST",
           body: JSON.stringify({
             ...values,
-            subtotal: cart.total,
+            subTotal: cart.total,
             tax: cart.tax,
             totalAmount: (cart.total + (cart.total * cart.tax) / 100).toFixed(
               2
@@ -25,7 +25,7 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
             cartItems: cart.cartItem,
           }),
           headers: {
-            "Content-Type": "application/json; charset-UTF-8", // Fixed syntax error and added correct header
+            "Content-Type": "application/json", // Fixed syntax error and added correct header
           },
         }
       );

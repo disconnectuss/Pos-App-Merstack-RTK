@@ -41,8 +41,7 @@ const CartTotal = () => {
                   <div className="flex flex-col ml-2">
                     <b>{item.title}</b>
                     <span>
-                      {" "}
-                      {item.price} € x {item.quantity}{" "}
+                      $ {item.price}  x {item.quantity}{" "}
                     </span>
                   </div>
                 </div>
@@ -91,7 +90,7 @@ const CartTotal = () => {
                   />
                 </div>
               </li>
-            ))
+            )).reverse()
           : "No order yet!"}
       </ul>
       <div className="cart-totals mt-auto">
