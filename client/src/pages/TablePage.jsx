@@ -15,7 +15,7 @@ const TablePage = () => {
       <div className="flex justify-end mr-5 gap-5">
         <Button>1st Floor</Button>
         <Button>2nd Floor</Button>
-        <Button>3rd Floor</Button>
+        <Button>Garden</Button>
       </div>
       <div className="tables-wrapper grid grid-cols-card gap-4 p-5">
         <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">

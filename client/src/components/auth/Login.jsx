@@ -4,6 +4,10 @@ import AuthCarousel from "./AuthCarousel";
 
 
 const Register = () => {
+  const onFinish = (val) => {
+    console.log(val, "hey")
+  }
+
   return (
     <div className="h-screen w-full flex flex-row">
       <div className="flex justify-between w-full h-full  min-w-[800px]">
@@ -11,7 +15,7 @@ const Register = () => {
           <h1 className="text-center text-5xl font-bold mb-2 text-red-900">
             LOGO
           </h1>
-          <Form layout="vertical">
+          <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
               label="E-mail Address"
               name={"email"}
@@ -26,7 +30,7 @@ const Register = () => {
             </Form.Item>
             <Form.Item
               label="Password"
-              name={"password"}
+              name={"password"}  
               rules={[
                 {
                   required: true,
