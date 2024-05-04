@@ -19,7 +19,7 @@ const Add = ({
           headers: { "Content-type": "application/json; charset=UTF-8" },
         }
       );
-      message.success("Category successfully added!");
+      message.success("Successfully added!");
       form.resetFields();
       setCategories([
         ...categories,
@@ -30,7 +30,7 @@ const Add = ({
       ]);
     } catch (error) {
       console.error(error);
-      message.error("Failed to add category");
+      message.error("Something went wrong!");
     }
   };
   return (
