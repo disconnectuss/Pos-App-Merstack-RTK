@@ -1,20 +1,128 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/header/Header";
-import { Button, Table} from "antd";
+import { Button, Input, Space, Table } from "antd";
 import PrintInvoice from "../components/invoices/PrintInvoice";
+import { SearchOutlined } from "@ant-design/icons";
 
 const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [invoices, setInvoices] = useState();
   const [customer, setCustomer] = useState();
-  console.log(customer)
+  // console.log(customer)
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
   
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1677ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: '#ffc069',
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
 
   useEffect(() => {
     const getInvoices = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/invoices/get-invoices`);
+        const res = await fetch(
+          `http://localhost:3000/api/invoices/get-invoices`
+        );
         const data = await res.json();
         setInvoices(data);
       } catch (error) {
@@ -30,6 +138,7 @@ const InvoicePage = () => {
       title: "Customer Name",
       dataIndex: "customerName",
       key: "customerName",
+      ...getColumnSearchProps('customerName')
     },
     {
       title: "Customer Tel",
@@ -48,14 +157,17 @@ const InvoicePage = () => {
       title: "Payment Method",
       dataIndex: "paymentMethod",
       key: "paymentMethod",
+      ...getColumnSearchProps('paymentMethod')
+
     },
     {
       title: "Total",
       dataIndex: "totalAmount",
       key: "totalAmount",
       render: (text) => {
-        return <span>$ {text}</span>
+        return <span>$ {text}</span>;
       },
+      sorter: (a, b) => a.totalAmount - b.totalAmount,
     },
     {
       title: "Actions",
@@ -67,9 +179,8 @@ const InvoicePage = () => {
             type="link"
             className="pl-0"
             onClick={() => {
-              setIsModalOpen(true)
-              setCustomer(record)
-
+              setIsModalOpen(true);
+              setCustomer(record);
             }}
           >
             Print
@@ -89,10 +200,15 @@ const InvoicePage = () => {
         pagination={false}
         scroll={{
           x: 1000,
-          y:300
+          y: 300,
         }}
+        rowKey="_id"
       />
-      <PrintInvoice isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} customer={customer} />
+      <PrintInvoice
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        customer={customer}
+      />
     </>
   );
 };

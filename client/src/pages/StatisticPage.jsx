@@ -7,6 +7,8 @@ import StatCard from "../components/statistics/StatCard.jsx";
 const StatisticPage = () => {
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
+  const user = JSON.parse(localStorage.getItem('posUser'))
+  console.log(user)
 
   useEffect(() => {
     async function fetchData() {
@@ -88,7 +90,7 @@ const StatisticPage = () => {
       <div className="px-6 pb-20 md:p-10">
         <h1 className="text-4xl font-bold text-center mb-4">Statistics</h1>
         <h2 className="text-lg pl-4">
-          Welcome <span className="text-red-800 font-bold text-2xl">Admin</span>
+          Welcome <span className="text-red-800 font-bold text-2xl">{user.email}</span>
         </h2>
       </div>
       <div className="stat-cards m-8 mb-20 grid xl:grid-cols-4 md:grid-cols-2 my-10 xl:gap-10 md:gap-7 sm:grid gap-5 ">
