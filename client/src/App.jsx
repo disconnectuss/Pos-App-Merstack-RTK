@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import CartPage from "./pages/CartPage";
 import InvoicePage from "./pages/InvoicePage";
@@ -8,22 +8,64 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import ProductPage from "./pages/ProductPage";
 
-
 function App() {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/cart' element={<CartPage/>}/>
-      <Route path='/invoice' element={<InvoicePage/>}/>
-      <Route path='/Tables' element={<TablePage/>}/>
-      <Route path='/statistics' element={< StatisticPage/>}/>
-      <Route path='/products' element={< ProductPage/>}/>
-      <Route path='/register' element={< Register/>}/>
-      <Route path='/login' element={< Login/>}/>
-    </Routes>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <RouteControl>
+              <Home />
+            </RouteControl>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <RouteControl>
+              <CartPage />
+            </RouteControl>
+          }
+        />
+        <Route
+          path="/invoice"
+          element={
+            <RouteControl>
+              <InvoicePage />
+            </RouteControl>
+          }
+        />
+        <Route path="/Tables" element={<TablePage />} />
+        <Route
+          path="/statistics"
+          element={
+            <RouteControl>
+              <StatisticPage />
+            </RouteControl>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <RouteControl>
+              <ProductPage />
+            </RouteControl>
+          }
+        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
+
+export const RouteControl = ({ children }) => {
+  if (localStorage.getItem("posUser")) {
+    return children;
+  } else {
+    return <Navigate to="/login" />;
+  }
+};

@@ -1,4 +1,4 @@
-import { Input, Badge} from "antd";
+import { Input, Badge, message} from "antd";
 import {
   SearchOutlined,
   HomeOutlined,
@@ -8,7 +8,7 @@ import {
   BarChartOutlined,
   LogoutOutlined
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 
@@ -16,6 +16,14 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const cartItems = useSelector((state) => state.cart); 
   // console.log(cartItems.cartItem.length)
+  const navigate = useNavigate()
+  const logOut = ()=> {
+    if (window.confirm("Sure to log out?")){
+      localStorage.removeItem("posUser")
+      navigate("/login")
+      message.success("Successfully logged out!")
+    }
+  }
   return (
     <div className="border-b mb-6">
       <header className="py-4 px-6 flex justify-between items-center gap-10">
@@ -66,7 +74,7 @@ const Header = () => {
           {/* Log out */}
           <a href={"/"} className="menu-link flex flex-col hover:text-[gray] transition-all">
             <LogoutOutlined  className="md:text-2xl text-xl  text-red-800" />
-            <span className="md:text-[15px] text-[10px]">Back</span>
+            <span className="md:text-[15px] text-[10px]" onClick={logOut}>Back</span>
           </a>
         </div>
         <Badge count={cartItems.cartItem.length} offset={[0,10]} className="md:hidden flex " >
