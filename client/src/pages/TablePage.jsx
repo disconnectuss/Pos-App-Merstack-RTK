@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/header/Header";
 import { Button } from "antd";
+import AddTables from "../components/tables/AddTables";
+import TableCard from "../components/tables/TableCard";
 
 const TablePage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const ishowModal = () => {
-    setIsModalOpen(true);
-  };
+  const [tables, setTables] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(true);
+  console.log(isAddModalOpen);
+  console.log(tables);
+  useEffect(() => {
+    const getTables = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/tables/get-all");
+        const data = await res.json();
+        setTables(data);
+        // console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getTables();
+  }, [isAddModalOpen, setIsAddModalOpen]);
 
   return (
     <div>
@@ -17,103 +32,34 @@ const TablePage = () => {
         <Button>2nd Floor</Button>
         <Button>Garden</Button>
       </div>
-      <div className="tables-wrapper grid grid-cols-card gap-4 p-5">
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
+      {tables.map((item) => (
+        <div className="tables-wrapper border grid grid-cols-card gap-4 p-5">
+          <TableCard item={item} key={item._id} />
         </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
+      ))}
+
+      <div className="flex justify-between p-5">
+        <div className="status flex flex-col p-5">
+          <span className="text-green-500 mb-2"> Available : {""} </span>
+          <span className="text-red-500 mb-2">Dine In : {""} </span>
+          <span className="text-blue-500 mb-2"> Reserved : {""} </span>
         </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
-        </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
-        </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
-        </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
-        </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
-        </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
-        </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
-        </div>
-        <div className="table-card border hover:shadow-lg cursor-pointer transition-all select-none">
-          <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
-            <span className="text-center">A1</span>
-          </div>
-          <div className="product-stat flex flex-col p-3">
-            <span className="font-bold">Available</span>
-            <span className="people">People: 4 </span>
-          </div>
-        </div>
+        <Button
+          type="text"
+          onClick={() => setIsAddModalOpen(true)}
+          className="!bg-red-300 text-white hover:shadow-lg cursor-pointer transition-all select-none"
+        >
+          Add Table
+        </Button>
       </div>
-      <div className="status flex justify-evenly">
-        <span className="text-green-500"> Available : {""} </span>
-        <span className="text-red-500">Dine In : {""} </span>
-        <span className="text-blue-500"> Reserved : {""} </span>
-      </div>
+      {isAddModalOpen && (
+        <AddTables
+          isAddModalOpen={isAddModalOpen}
+          setIsAddModalOpen={setIsAddModalOpen}
+          tables={tables}
+          setTables={setTables}
+        />
+      )}
     </div>
   );
 };

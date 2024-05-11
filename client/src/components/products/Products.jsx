@@ -47,7 +47,7 @@ const Products = ({ categories, filtered, products, setProducts, search }) => {
           onClick={() => navigate("/products")}
         />
       </div>
-      <AddProducts
+      <AddProducts                                                                                                                                                                                                                                                                                                                        
         isAddModalOpen={isAddModalOpen}
         setIsAddModalOpen={setIsAddModalOpen}
         categories={categories}
