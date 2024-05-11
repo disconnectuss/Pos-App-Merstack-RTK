@@ -24,10 +24,11 @@ const Products = ({ categories, filtered, products, setProducts, search }) => {
 
   return (
     <div className="products-wrapper grid grid-cols-card gap-4">
-      {filtered.filter((item)=> item.title.includes(search))
-      .map((item) => (
-        <ProductItem item={item} key={item._id} />
-      ))}
+      {filtered
+        .filter((item) => item.title.includes(search))
+        .map((item) => (
+          <ProductItem item={item} key={item._id} />
+        ))}
 
       <div
         className="product-item border hover:shadow-lg cursor-pointer
@@ -47,7 +48,7 @@ const Products = ({ categories, filtered, products, setProducts, search }) => {
           onClick={() => navigate("/products")}
         />
       </div>
-      <AddProducts                                                                                                                                                                                                                                                                                                                        
+      <AddProducts
         isAddModalOpen={isAddModalOpen}
         setIsAddModalOpen={setIsAddModalOpen}
         categories={categories}

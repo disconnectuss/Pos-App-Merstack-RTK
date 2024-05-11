@@ -67,7 +67,7 @@ const AddTables = ({ tables, setTables
           >
             <Input />
           </Form.Item>
-          <FormItem
+          <Form.Item
             name="status"
             label="Select status"
             rules={[
@@ -91,7 +91,7 @@ const AddTables = ({ tables, setTables
               }
               options={["Available","Dine in","Reserved"]}
             />
-          </FormItem>
+          </Form.Item>
 
           <Form.Item className=" flex justify-end mb-0">
             <Button htmlType="submit">Add</Button>

@@ -5,9 +5,9 @@ import AddTables from "../components/tables/AddTables";
 import TableCard from "../components/tables/TableCard";
 
 const TablePage = () => {
-  const [tables, setTables] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(true);
-  console.log(isAddModalOpen);
+  const [tables, setTables] = useState([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  // console.log(isAddModalOpen);
   console.log(tables);
   useEffect(() => {
     const getTables = async () => {
@@ -21,7 +21,7 @@ const TablePage = () => {
       }
     };
     getTables();
-  }, [isAddModalOpen, setIsAddModalOpen]);
+  }, [isAddModalOpen, setIsAddModalOpen]);  
 
   return (
     <div>
@@ -32,11 +32,11 @@ const TablePage = () => {
         <Button>2nd Floor</Button>
         <Button>Garden</Button>
       </div>
-      {tables.map((item) => (
-        <div className="tables-wrapper border grid grid-cols-card gap-4 p-5">
+      <div className="tables-wrapper border grid grid-cols-card gap-4 p-5">
+        {tables?.map((item) => (
           <TableCard item={item} key={item._id} />
-        </div>
-      ))}
+        ))}
+      </div>
 
       <div className="flex justify-between p-5">
         <div className="status flex flex-col p-5">
