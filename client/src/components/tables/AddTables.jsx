@@ -1,14 +1,12 @@
 import { Button, Form, Input, message, Modal, Select } from "antd";
-import FormItem from "antd/es/form/FormItem";
-import { useState } from "react";
 
-
-const AddTables = ({ tables, setTables
-  
- 
+const AddTables = ({
+  isAddModalOpen,
+  setIsAddModalOpen,
+  tables,
+  setTables,
 }) => {
   const [form] = Form.useForm();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   // console.log(tables)
 
   const handleSubmit = (values) => {
@@ -25,11 +23,10 @@ const AddTables = ({ tables, setTables
         {
           ...values,
           _id: Math.random(),
-         
         },
       ]);
-      console.log(setTables)
-      setIsAddModalOpen(false)
+      //console.log(setTables);
+      setIsAddModalOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -82,15 +79,20 @@ const AddTables = ({ tables, setTables
               placeholder="Search to Select"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                (option?.title ?? "").includes(input)
+                (option?.children ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
               }
               filterSort={(optionA, optionB) =>
-                (optionA?.title ?? "")
+                (optionA?.children ?? "")
                   .toLowerCase()
-                  .localeCompare((optionB?.title ?? "").toLowerCase())
+                  .localeCompare((optionB?.children ?? "").toLowerCase())
               }
-              options={["Available","Dine in","Reserved"]}
-            />
+            >
+              <Select.Option value="Available">Available</Select.Option>
+              <Select.Option value="Dine in">Dine in</Select.Option>
+              <Select.Option value="Reserved">Reserved</Select.Option>
+            </Select>
           </Form.Item>
 
           <Form.Item className=" flex justify-end mb-0">

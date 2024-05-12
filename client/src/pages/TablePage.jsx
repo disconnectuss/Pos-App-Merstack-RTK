@@ -3,12 +3,15 @@ import Header from "../components/header/Header";
 import { Button } from "antd";
 import AddTables from "../components/tables/AddTables";
 import TableCard from "../components/tables/TableCard";
+import EditTables from "../components/tables/EditTables";
 
 const TablePage = () => {
   const [tables, setTables] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   // console.log(isAddModalOpen);
-  console.log(tables);
+  // console.log(tables);
   useEffect(() => {
     const getTables = async () => {
       try {
@@ -21,7 +24,7 @@ const TablePage = () => {
       }
     };
     getTables();
-  }, [isAddModalOpen, setIsAddModalOpen]);  
+  }, [isAddModalOpen]);
 
   return (
     <div>
@@ -34,7 +37,7 @@ const TablePage = () => {
       </div>
       <div className="tables-wrapper border grid grid-cols-card gap-4 p-5">
         {tables?.map((item) => (
-          <TableCard item={item} key={item._id} />
+          <TableCard item={item} key={item._id} isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} />
         ))}
       </div>
 
@@ -60,6 +63,12 @@ const TablePage = () => {
           setTables={setTables}
         />
       )}
+      <EditTables
+          isAddModalOpen={isAddModalOpen}
+          setIsAddModalOpen={setIsAddModalOpen}
+          tables={tables}
+          setTables={setTables}
+        />
     </div>
   );
 };
