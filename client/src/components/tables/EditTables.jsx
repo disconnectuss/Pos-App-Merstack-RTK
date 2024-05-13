@@ -1,89 +1,119 @@
-import { Button, Form, Input, message, Modal, Select } from "antd";
+import React, { useState } from "react";
+import { Button, Form, Input, message, Modal, Table } from "antd";
 
-const EditTables = ({
+const Edit = ({
   isEditModalOpen,
   setIsEditModalOpen,
   tables,
   setTables,
 }) => {
-  const [form] = Form.useForm();
-  // console.log(tables)
+  const [editRow, setEditRow] = useState({});
+  const [isModalVisible, setIsModalVisible]= useState(false)
 
-  const handleSubmit = (values) => {
+  const onFinish = (values) => {
     try {
-      fetch("http://localhost:3000/api/tables/get-table", {
-        method: "GET",
-        body: JSON.stringify(values),
+      fetch("http://localhost:3000/api/tables/update-table", {
+        method: "PUT",
+        body: JSON.stringify({ ...values, tableId: editRow._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
-      message.success("Table successfully ssaved!");
-      form.resetFields();
-      setTables([
-        ...tables,
-        {
-          ...values,
-          _id: Math.random(),
-        },
-      ]);
-      //console.log(setTables);
-      setIsEditModalOpen(false);
+      message.success("Successfully updated!");
+      settables(
+        tables.map((item) => {
+          if (item._id === editRow._id) {
+            return { ...item, title: values.title };
+          }
+          return item;
+        })
+      );
     } catch (error) {
-      console.log(error);
+      message.error("Oops! Something went wrong!");
     }
   };
-  return (
-    <div>
-      <Modal
-        title="Edit Table"
-        open={isEditModalOpen}
-        onCancel={() => setIsEditModalOpen(false)}
-        footer={false}
-      >
-        <Form layout="vertical" onFinish={handleSubmit} form={form}>
-          <Form.Item
-            name="part"
-            label="Floor"
-            rules={[
-              {
-                required: true,
-                message: "Please ensure the field is completed!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="people"
-            label="People"
-            rules={[
-              {
-                required: true,
-                message: "Please ensure the field is completed!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="status"
-            label="Select status"
-            rules={[
-              {
-                required: true,
-                message: "Please ensure you've chosen table stat!",
-              },
-            ]}
-          >
-           
-          </Form.Item>
 
-          <Form.Item className=" flex justify-end mb-0">
-            <Button htmlType="submit">Save</Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+  const deleteRow = (id) => {
+    if (window.confirm("Are you sure you want to delete?")) {
+      try {
+        fetch("http://localhost:3000/api/tables/delete-table", {
+          method: "DELETE",
+          body: JSON.stringify({ tableId: id }),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        });
+        message.success("Successfully deleted!");
+        setTables(tables.filter((item) => item._id !== id));
+      } catch (error) {
+        message.error("Oops! Something went wrong!");
+      }
+    }
+  };
+
+  const columns = [
+    {
+      title: "table Title",
+      dataIndex: "title",
+      render: (_, record) => {
+        if (record._id === editRow._id) {
+          return (
+            <Form.Item className="mb-0" name="title">
+              <Input defaultValue={record.title} />
+            </Form.Item>
+          );
+        } else {
+          return <p>{record.title}</p>;
+        }
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => {
+        return (
+          <div>
+            <Button
+              type="link"
+              onClick={() => setEditRow(record)}
+              className="pl-0"
+            >
+              Edit
+            </Button>
+            <Button
+              type="link"
+              htmlType="submit"
+              className="text-gray-500"
+              onClick={onFinish}
+            >
+              Save
+            </Button>
+            <Button
+              type="link"
+              danger
+              onClick={() => deleteRow(record._id)}
+            >
+              Delete
+            </Button>
+          </div>
+        );
+      },
+    },
+  ];
+
+  return (
+    <Modal
+      open={isEditModalOpen} 
+      title="Table Management"
+      footer={false}
+      onCancel={() => setIsEditModalOpen(false)}
+    >
+      <Form onFinish={onFinish}>
+        <Table
+          bordered
+          dataSource={tables}
+          columns={columns}
+          rowKey={"_id"}
+        />
+      </Form>
+    </Modal>
   );
 };
 
-export default EditTables;
+export default Edit;

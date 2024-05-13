@@ -4,7 +4,7 @@ import { PlusOutlined, EditOutlined } from "@ant-design/icons";
 import AddProducts from "./AddProducts";
 import { useNavigate } from "react-router-dom";
 
-const Products = ({ categories, filtered, products, setProducts, search }) => {
+const Products = ({ categories, filtered, setProducts, search }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const navigate = useNavigate("/products");
 

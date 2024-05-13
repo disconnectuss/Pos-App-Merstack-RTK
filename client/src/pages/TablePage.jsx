@@ -37,7 +37,14 @@ const TablePage = () => {
       </div>
       <div className="tables-wrapper border grid grid-cols-card gap-4 p-5">
         {tables?.map((item) => (
-          <TableCard item={item} key={item._id} isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} />
+          <TableCard
+            item={item}
+            key={item._id}
+            isAddModalOpen={isAddModalOpen}
+            setIsAddModalOpen={setIsAddModalOpen}
+            isEditModalOpen={isEditModalOpen}
+            setIsEditModalOpen={setIsEditModalOpen}
+          />
         ))}
       </div>
 
@@ -64,11 +71,11 @@ const TablePage = () => {
         />
       )}
       <EditTables
-          isAddModalOpen={isAddModalOpen}
-          setIsAddModalOpen={setIsAddModalOpen}
-          tables={tables}
-          setTables={setTables}
-        />
+        isAddModalOpen={isAddModalOpen}
+        setIsAddModalOpen={setIsAddModalOpen}
+        tables={tables}
+        setTables={setTables}
+      />
     </div>
   );
 };

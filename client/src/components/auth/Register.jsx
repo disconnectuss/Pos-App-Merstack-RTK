@@ -55,7 +55,8 @@ const Register = () => {
                 },
               ]}
             >
-              <Input />
+              <Input
+              placeholder="example@example.com" />
             </Form.Item>
             <Form.Item
               label="Password"

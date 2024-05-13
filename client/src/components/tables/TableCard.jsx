@@ -1,14 +1,30 @@
 import React, { useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
 
-function TableCard({ item }) {
-  // console.log(item)
+function TableCard({ item, isEditModalOpen, setIsEditModalOpen }) {
+
+  // Define background color based on item.status
+  let bgColor;
+  switch (item.status) {
+    case "Available":
+      bgColor = "bg-green-400";
+      break;
+    case "Dine in":
+      bgColor = "bg-red-400";
+      break;
+    case "Reserved":
+      bgColor = "bg-blue-400";
+      break;
+    default:
+      bgColor = "bg-gray-400";
+  }
+
   return (
     <div
-      className="table-card border hover:shadow-lg cursor-pointer transition-all select-none"
+      className={`table-card border text-white hover:shadow-lg cursor-pointer transition-all select-none ${bgColor}`}
       onClick={() => setIsEditModalOpen(true)}
     >
-      <div className="table-name border rounded-full w-10 flex justify-center p-2 m-4">
+      <div className="table-name bg-gray-500  border rounded-full w-10 flex justify-center p-2 m-4">
         <span className="text-center">{item.part}</span>
       </div>
       <div className="product-stat flex flex-col p-3">

@@ -53,6 +53,7 @@ const Login = () => {
             <Form.Item
               label="E-mail Address"
               name={"email"}
+              
               rules={[
                 {
                   required: true,
@@ -60,7 +61,8 @@ const Login = () => {
                 },
               ]}
             >
-              <Input />
+              <Input
+              placeholder="example@example.com"/>
             </Form.Item>
             <Form.Item
               label="Password"
