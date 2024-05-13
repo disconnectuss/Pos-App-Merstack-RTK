@@ -11,7 +11,7 @@ const TablePage = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // console.log(isAddModalOpen);
-  // console.log(tables);
+ // console.log(tables);
   useEffect(() => {
     const getTables = async () => {
       try {
@@ -71,8 +71,8 @@ const TablePage = () => {
         />
       )}
       <EditTables
-        isAddModalOpen={isAddModalOpen}
-        setIsAddModalOpen={setIsAddModalOpen}
+        isEditModalOpen={isEditModalOpen}
+        setIsEditModalOpen={setIsEditModalOpen}
         tables={tables}
         setTables={setTables}
       />

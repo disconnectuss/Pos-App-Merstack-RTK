@@ -8,7 +8,6 @@ const Edit = ({
   setCategories,
 }) => {
   const [editRow, setEditRow] = useState({});
-  const [isModalVisible, setIsModalVisible]= useState(false)
 
   const onFinish = (values) => {
     try {

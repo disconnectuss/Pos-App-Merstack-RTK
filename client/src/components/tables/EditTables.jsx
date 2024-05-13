@@ -8,20 +8,21 @@ const Edit = ({
   setTables,
 }) => {
   const [editRow, setEditRow] = useState({});
-  const [isModalVisible, setIsModalVisible]= useState(false)
 
-  const onFinish = (values) => {
-    try {
+
+  const onFinish = async (values) => {
+    try { await
       fetch("http://localhost:3000/api/tables/update-table", {
         method: "PUT",
         body: JSON.stringify({ ...values, tableId: editRow._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
       message.success("Successfully updated!");
-      settables(
+      setTables(
         tables.map((item) => {
+          console.log(item)
           if (item._id === editRow._id) {
-            return { ...item, title: values.title };
+            return { ...item, title: values.part };
           }
           return item;
         })
@@ -31,9 +32,9 @@ const Edit = ({
     }
   };
 
-  const deleteRow = (id) => {
+ const deleteRow = async (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
-      try {
+      try { await
         fetch("http://localhost:3000/api/tables/delete-table", {
           method: "DELETE",
           body: JSON.stringify({ tableId: id }),
@@ -49,24 +50,54 @@ const Edit = ({
 
   const columns = [
     {
-      title: "table Title",
-      dataIndex: "title",
+      title: "Floor",
+      dataIndex: "part",
       render: (_, record) => {
         if (record._id === editRow._id) {
           return (
-            <Form.Item className="mb-0" name="title">
-              <Input defaultValue={record.title} />
+            <Form.Item className="mb-0" name="part">
+              <Input defaultValue={record.part} />
             </Form.Item>
           );
         } else {
-          return <p>{record.title}</p>;
+          return <p>{record.part}</p>;
+        }
+      },
+    },
+    {
+      title: "People",
+      dataIndex: "people",
+      render: (_, record) => {
+        if (record._id === editRow._id) {
+          return (
+            <Form.Item className="mb-0" name="people">
+              <Input defaultValue={record.part} />
+            </Form.Item>
+          );
+        } else {
+          return <p>{record.people}</p>;
+        }
+      },
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      render: (_, record) => {
+        if (record._id === editRow._id) {
+          return (
+            <Form.Item className="mb-0" name="status">
+              <Input defaultValue={record.part} />
+            </Form.Item>
+          );
+        } else {
+          return <p>{record.status}</p>;
         }
       },
     },
     {
       title: "Action",
       dataIndex: "action",
-      render: (text, record) => {
+      render: (record) => {
         return (
           <div>
             <Button
