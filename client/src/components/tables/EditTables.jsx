@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input, message, Modal, Table } from "antd";
 
-const Edit = ({
+const EditTables = ({
   isEditModalOpen,
   setIsEditModalOpen,
   tables,
   setTables,
 }) => {
-  const [editRow, setEditRow] = useState({});
-
+  const [editRow, setEditRow] = useState([]);
+  // console.log(tables)
+   // console.log(editRow)
+   
+// get-all tables
+   useEffect(() => {
+    const getTables = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/tables/get-all");
+        const data = await res.json();
+        setTables(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getTables();
+  }, []);
 
   const onFinish = async (values) => {
     try { await
@@ -112,6 +128,7 @@ const Edit = ({
               htmlType="submit"
               className="text-gray-500"
               onClick={onFinish}
+
             >
               Save
             </Button>
@@ -147,4 +164,4 @@ const Edit = ({
   );
 };
 
-export default Edit;
+export default EditTables;

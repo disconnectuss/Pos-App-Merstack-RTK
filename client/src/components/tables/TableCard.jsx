@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
 
-function TableCard({ item, isEditModalOpen, setIsEditModalOpen }) {
+function TableCard({ item, isEditModalOpen, setIsEditModalOpen}) {
 
   // Define background color based on item.status
   let bgColor;

@@ -7,6 +7,7 @@ const EditProducts = () => {
   const [editItem, setEditItem] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [form] = Form.useForm();
+  console.log(editItem)
   // get-all-products
   useEffect(() => {
     const getProducts = async () => {
