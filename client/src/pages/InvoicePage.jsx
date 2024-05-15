@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/header/Header";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Input, Space, Spin, Table } from "antd";
 import PrintInvoice from "../components/invoices/PrintInvoice";
 import { SearchOutlined } from "@ant-design/icons";
+
 
 const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -193,24 +194,31 @@ const InvoicePage = () => {
     <>
       <Header />
       <h1 className="text-4xl font-bold text-center mb-4">Invoices</h1>
-      <Table
-        dataSource={invoices}
-        columns={columns}
-        bordered
-        pagination={false}
-        scroll={{
-          x: 1000,
-          y: 300,
-        }}
-        rowKey="_id"
-      />
-      <PrintInvoice
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        customer={customer}
-      />
+      {
+        invoices ? (
+          <>
+            <Table
+              dataSource={invoices}
+              columns={columns}
+              bordered
+              pagination={false}
+              scroll={{
+                x: 1000,
+                y: 300,
+              }}
+              rowKey="_id"
+            />
+            <PrintInvoice
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              customer={customer}
+            />
+          </>
+        ) : (
+          <Spin size="large" className="absolute top-1/2 h-screen w-screen flex justify-center"/>
+        )
+      }
     </>
-  );
-};
+  )}
 
 export default InvoicePage;

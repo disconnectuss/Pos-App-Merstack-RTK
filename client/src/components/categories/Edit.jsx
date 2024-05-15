@@ -8,6 +8,7 @@ const Edit = ({
   setCategories,
 }) => {
   const [editRow, setEditRow] = useState({});
+  console.log(editRow)
 
   const onFinish = (values) => {
     try {

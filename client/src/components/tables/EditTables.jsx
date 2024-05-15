@@ -7,25 +7,25 @@ const EditTables = ({
   tables,
   setTables,
 }) => {
-  const [editRow, setEditRow] = useState([]);
+  const [editRow, setEditRow] = useState({});
   // console.log(tables)
    // console.log(editRow)
    
 // get-all tables
-   useEffect(() => {
-    const getTables = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/api/tables/get-all");
-        const data = await res.json();
-        setTables(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getTables();
-  }, []);
-
+  //  useEffect(() => {
+  //   const getTables = async () => {
+  //     try {
+  //       const res = await fetch("http://localhost:3000/api/tables/get-all");
+  //       const data = await res.json();
+  //       setTables(data);
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getTables();
+  // }, []);
+// update tables
   const onFinish = async (values) => {
     try { await
       fetch("http://localhost:3000/api/tables/update-table", {
@@ -38,7 +38,7 @@ const EditTables = ({
         tables.map((item) => {
           console.log(item)
           if (item._id === editRow._id) {
-            return { ...item, title: values.part };
+            return { ...item };
           }
           return item;
         })
@@ -47,7 +47,7 @@ const EditTables = ({
       message.error("Oops! Something went wrong!");
     }
   };
-
+// delete table
  const deleteRow = async (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
       try { await
