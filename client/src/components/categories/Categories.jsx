@@ -8,10 +8,8 @@ import "./style.css";
 const Categories = ({
   categories,
   setCategories,
-  filtered,
   setFiltered,
-  products,
-  setProducts,
+  products
 }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, message, Modal, Table } from "antd";
+import { Button, Form, Input, message, Modal, Select, Table } from "antd";
 
 const EditTables = ({
   isEditModalOpen,
@@ -7,38 +7,26 @@ const EditTables = ({
   tables,
   setTables,
 }) => {
-  const [editRow, setEditRow] = useState({});
-  // console.log(tables)
-   // console.log(editRow)
-   
-// get-all tables
-  //  useEffect(() => {
-  //   const getTables = async () => {
-  //     try {
-  //       const res = await fetch("http://localhost:3000/api/tables/get-all");
-  //       const data = await res.json();
-  //       setTables(data);
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getTables();
-  // }, []);
-// update tables
+  const [editRow, setEditRow] = useState(tables);
+  //console.log(tables);
+  //console.log(editRow);
+
   const onFinish = async (values) => {
-    try { await
-      fetch("http://localhost:3000/api/tables/update-table", {
+    try {
+      await fetch("http://localhost:3000/api/tables/update-table", {
         method: "PUT",
         body: JSON.stringify({ ...values, tableId: editRow._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
+      // console.log(values)- an empty values object
       message.success("Successfully updated!");
       setTables(
         tables.map((item) => {
-          console.log(item)
           if (item._id === editRow._id) {
-            return { ...item };
+            return {
+              ...item,
+              title: item.title,
+            };
           }
           return item;
         })
@@ -47,11 +35,11 @@ const EditTables = ({
       message.error("Oops! Something went wrong!");
     }
   };
-// delete table
- const deleteRow = async (id) => {
+  // delete table
+  const deleteRow = async (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
-      try { await
-        fetch("http://localhost:3000/api/tables/delete-table", {
+      try {
+        await fetch("http://localhost:3000/api/tables/delete-table", {
           method: "DELETE",
           body: JSON.stringify({ tableId: id }),
           headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -66,17 +54,18 @@ const EditTables = ({
 
   const columns = [
     {
-      title: "Floor",
-      dataIndex: "part",
+      title: "Title",
+      dataIndex: "title",
       render: (_, record) => {
+        //console.log(record) - no problem
         if (record._id === editRow._id) {
           return (
-            <Form.Item className="mb-0" name="part">
-              <Input defaultValue={record.part} />
+            <Form.Item className="mb-0" name="title">
+              <Input key={`${record._id}-title`} defaultValue={record.title} />
             </Form.Item>
           );
         } else {
-          return <p>{record.part}</p>;
+          return <p>{record.title}</p>;
         }
       },
     },
@@ -87,7 +76,10 @@ const EditTables = ({
         if (record._id === editRow._id) {
           return (
             <Form.Item className="mb-0" name="people">
-              <Input defaultValue={record.part} />
+              <Input
+                key={`${record._id}-people`}
+                defaultValue={record.people}
+              />
             </Form.Item>
           );
         } else {
@@ -102,7 +94,25 @@ const EditTables = ({
         if (record._id === editRow._id) {
           return (
             <Form.Item className="mb-0" name="status">
-              <Input defaultValue={record.part} />
+              <Select
+                showSearch
+                placeholder="Search to Select"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.children ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                filterSort={(optionA, optionB) =>
+                  (optionA?.children ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.children ?? "").toLowerCase())
+                }
+              >
+                <Select.Option value="Available">Available</Select.Option>
+                <Select.Option value="Dine in">Dine in</Select.Option>
+                <Select.Option value="Reserved">Reserved</Select.Option>
+              </Select>
             </Form.Item>
           );
         } else {
@@ -111,14 +121,17 @@ const EditTables = ({
       },
     },
     {
-      title: "Action",
+      title: "action",
       dataIndex: "action",
-      render: (record) => {
+      render: (_, record) => {
         return (
-          <div>
+          <div className="flex ">
             <Button
               type="link"
-              onClick={() => setEditRow(record)}
+              onClick={() => {
+                console.log(record);
+                setEditRow(record);
+              }}
               className="pl-0"
             >
               Edit
@@ -128,15 +141,10 @@ const EditTables = ({
               htmlType="submit"
               className="text-gray-500"
               onClick={onFinish}
-
             >
               Save
             </Button>
-            <Button
-              type="link"
-              danger
-              onClick={() => deleteRow(record._id)}
-            >
+            <Button type="link" danger onClick={() => deleteRow(record._id)}>
               Delete
             </Button>
           </div>
@@ -147,18 +155,14 @@ const EditTables = ({
 
   return (
     <Modal
-      open={isEditModalOpen} 
+      open={isEditModalOpen}
       title="Table Management"
       footer={false}
       onCancel={() => setIsEditModalOpen(false)}
+      width={600} // edit modal width !!!!
     >
       <Form onFinish={onFinish}>
-        <Table
-          bordered
-          dataSource={tables}
-          columns={columns}
-          rowKey={"_id"}
-        />
+        <Table bordered dataSource={tables} columns={columns} rowKey={"_id"} />
       </Form>
     </Modal>
   );

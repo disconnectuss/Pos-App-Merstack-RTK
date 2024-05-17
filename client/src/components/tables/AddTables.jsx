@@ -41,8 +41,8 @@ const AddTables = ({
       >
         <Form layout="vertical" onFinish={handleSubmit} form={form}>
           <Form.Item
-            name="part"
-            label="Floor"
+            name="title"
+            label="Title"
             rules={[
               {
                 required: true,
@@ -50,7 +50,58 @@ const AddTables = ({
               },
             ]}
           >
-            <Input />
+            <Select
+              showSearch
+              placeholder="Search to Select"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.children ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.children ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.children ?? "").toLowerCase())
+              }
+            >
+              <Select.Option value="A">A</Select.Option>
+              <Select.Option value="B">B</Select.Option>
+              <Select.Option value="C">C</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="number"
+            label="Number"
+            rules={[
+              {
+                required: true,
+                message: "Please ensure the field is completed!",
+              },
+            ]}
+          >
+            <Select
+              showSearch
+              placeholder="Search to Select"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.children ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.children ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.children ?? "").toLowerCase())
+              }
+            >
+              <Select.Option value="1">1</Select.Option>
+              <Select.Option value="2">2</Select.Option>
+              <Select.Option value="3">3</Select.Option>
+              <Select.Option value="4">4</Select.Option>
+              <Select.Option value="5">5</Select.Option>
+            </Select>
           </Form.Item>
           <Form.Item
             name="people"
