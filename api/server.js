@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const app = express();
 const cors = require("cors");
 const logger = require("morgan");
-const port = import.meta.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 // routes   
 const categoryRoute = require("./routes/categories.js");
@@ -18,7 +18,7 @@ dotenv.config()
 
 const connect = async () => {
   try {
-    await mongoose.connect(import.meta.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to Mongodb server")
   } catch (error) {
     throw error;
