@@ -13,7 +13,7 @@ const AddProducts = ({
 
   const handleSubmit = (values) => {
     try {
-      fetch("http://localhost:3000/api/products/add-product", {
+      fetch(import.meta.env.VITE_SERVER_URL+"/api/products/add-product", {
         method: "POST",
         body: JSON.stringify(values),
         headers: { "Content-type": "application/json; charset=UTF-8" },

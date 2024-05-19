@@ -13,7 +13,7 @@ const EditTables = ({
 
   const onFinish = async (values) => {
     try {
-      await fetch("http://localhost:3000/api/tables/update-table", {
+      await fetch(import.meta.env.VITE_SERVER_URL+ "/api/tables/update-table", {
         method: "PUT",
         body: JSON.stringify({ ...values, tableId: editRow._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },

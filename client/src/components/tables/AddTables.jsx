@@ -11,7 +11,7 @@ const AddTables = ({
 
   const handleSubmit = (values) => {
     try {
-      fetch("http://localhost:3000/api/tables/add-table", {
+      fetch(import.meta.env.VITE_SERVER_URL+"/api/tables/add-table", {
         method: "POST",
         body: JSON.stringify(values),
         headers: { "Content-type": "application/json; charset=UTF-8" },

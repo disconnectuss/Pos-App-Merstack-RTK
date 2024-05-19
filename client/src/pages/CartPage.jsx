@@ -255,14 +255,14 @@ const CartPage = () => {
         <div className="border-t border-b">
           <div className="flex justify-between p-2">
             <b>Total</b>
-            <span>$ {cart.total.toFixed(2)}</span>
+            <span>$ {typeof cart.total === 'number' ? cart.total.toFixed(2) : '0.00'}</span>
           </div>
           <div className="flex justify-between p-2">
             <b>Each {cart.tax}%</b>
             <span className="text-red-700">
-              ${(cart.total * cart.tax) / 100 > 0
-                ? `${((cart.total * cart.tax) / 100).toFixed(2)}`
-                : 0}{" "}
+              ${typeof cart.total === 'number' && cart.total > 0
+                    ? `${((cart.total * cart.tax) / 100).toFixed(2)}`
+                    : '0.00'}{" "}
               
             </span>
           </div>

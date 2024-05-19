@@ -8,11 +8,11 @@ const Edit = ({
   setCategories,
 }) => {
   const [editRow, setEditRow] = useState({});
-  console.log(editRow)
+  // console.log(editRow);
 
   const onFinish = (values) => {
     try {
-      fetch("http://localhost:3000/api/categories/update-category", {
+      fetch(import.meta.env.VITE_SERVER_URL+ "/api/categories/update-category", {
         method: "PUT",
         body: JSON.stringify({ ...values, categoryId: editRow._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -34,7 +34,7 @@ const Edit = ({
   const deleteRow = (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
       try {
-        fetch("http://localhost:3000/api/categories/delete-category", {
+        fetch(meta.env.VITE_SERVER_URL+ "/api/categories/delete-category", {
           method: "DELETE",
           body: JSON.stringify({ categoryId: id }),
           headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -84,11 +84,7 @@ const Edit = ({
             >
               Save
             </Button>
-            <Button
-              type="link"
-              danger
-              onClick={() => deleteRow(record._id)}
-            >
+            <Button type="link" danger onClick={() => deleteRow(record._id)}>
               Delete
             </Button>
           </div>
@@ -99,7 +95,7 @@ const Edit = ({
 
   return (
     <Modal
-      open={isEditModalOpen} 
+      open={isEditModalOpen}
       title="Category Management"
       footer={false}
       onCancel={() => setIsEditModalOpen(false)}

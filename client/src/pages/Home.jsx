@@ -13,13 +13,15 @@ const Home = () => {
   // console.log(categories)
   // console.log(products)
   // console.log(filtered) * filtered should be an array
-  
+
   // console.log(search)
 
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/categories/get-all");
+        const res = await fetch(
+          import.meta.env.VITE_SERVER_URL+"/api/categories/get-all"
+        );
         const data = await res.json();
         data &&
           setCategories(
@@ -38,37 +40,41 @@ const Home = () => {
   return (
     <>
       <Header search={search} setSearch={setSearch} />
-      { products && categories ? (
-          <div className="home px-6 flex md:flex-row flex-col justify-between gap-3  md:pb-0 pb-24">
-        <div
-          className="categories overflow-auto max-h-[calc(100vh_-_112px)]
+      {products && categories ? (
+        <div className="home px-6 flex md:flex-row flex-col justify-between gap-3  md:pb-0 pb-24">
+          <div
+            className="categories overflow-auto max-h-[calc(100vh_-_112px)]
         md:pb-10"
-        >
-          <Categories
-            categories={categories}
-            setCategories={setCategories}
-            filtered={filtered}
-            setFiltered={setFiltered}
-            products={products}
-            setProducts={setProducts}
-          />
+          >
+            <Categories
+              categories={categories}
+              setCategories={setCategories}
+              filtered={filtered}
+              setFiltered={setFiltered}
+              products={products}
+              setProducts={setProducts}
+            />
+          </div>
+          {/* md:mr-0 -mr[20px] md:pr-0 pr-10 */}
+          <div className="products flex-[8] max-h-[calc(100vh_-_112px)] overflow-auto pb-10">
+            <Products
+              categories={categories}
+              setCategories={setCategories}
+              filtered={filtered}
+              products={products}
+              setProducts={setProducts}
+              search={search}
+            />
+          </div>
+          <div className="total min-w-[300px] md:-mr-[24px] md:-mt-[[24px] border h-screen">
+            <CartTotal />
+          </div>
         </div>
-        {/* md:mr-0 -mr[20px] md:pr-0 pr-10 */}
-        <div className="products flex-[8] max-h-[calc(100vh_-_112px)] overflow-auto pb-10">
-          <Products
-            categories={categories}
-            setCategories={setCategories}
-            filtered={filtered}
-            products={products}
-            setProducts={setProducts}
-            search={search}
-          />
-        </div>
-        <div className="total min-w-[300px] md:-mr-[24px] md:-mt-[[24px] border h-screen">
-          <CartTotal />
-        </div>
-      </div>
-        ) : (<Spin size="large" className="absolute top-1/2 h-screen w-screen flex justify-center"/>
+      ) : (
+        <Spin
+          size="large"
+          className="absolute top-1/2 h-screen w-screen flex justify-center"
+        />
       )}
     </>
   );

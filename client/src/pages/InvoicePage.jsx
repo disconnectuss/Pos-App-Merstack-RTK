@@ -122,7 +122,7 @@ const InvoicePage = () => {
     const getInvoices = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/invoices/get-invoices`
+          import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices"
         );
         const data = await res.json();
         setInvoices(data);

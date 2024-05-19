@@ -5,12 +5,7 @@ import Add from "./Add";
 import Edit from "./Edit";
 import "./style.css";
 
-const Categories = ({
-  categories,
-  setCategories,
-  setFiltered,
-  products
-}) => {
+const Categories = ({ categories, setCategories, setFiltered, products }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState("All");
@@ -19,7 +14,7 @@ const Categories = ({
     if (categoryTitle === "All") {
       setFiltered(products);
     } else {
-      setFiltered(products.filter((item)=> item.category === categoryTitle))
+      setFiltered(products.filter((item) => item.category === categoryTitle));
     }
   }, [products, setFiltered, categoryTitle]);
   return (
@@ -27,7 +22,9 @@ const Categories = ({
       <ul className="flex gap-4 md:flex-col text-lg px-4 mb-0">
         {categories?.map((item) => (
           <li
-            className={`category-item ${ item.title === categoryTitle && "bg-purple-600"}`}
+            className={`category-item ${
+              item.title === categoryTitle && "bg-purple-600"
+            }`}
             key={item._id}
             onClick={() => setCategoryTitle(item.title)}
           >

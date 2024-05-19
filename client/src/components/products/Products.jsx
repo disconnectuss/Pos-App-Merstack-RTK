@@ -11,7 +11,7 @@ const Products = ({ categories, filtered, setProducts, search }) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/products/get-all");
+        const res = await fetch(import.meta.env.VITE_SERVER_URL+ "/api/products/get-all");
         const data = await res.json();
         setProducts(data);
         // console.log(data);

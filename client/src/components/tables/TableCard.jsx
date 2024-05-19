@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
 
-function TableCard({ item}) {
+function TableCard({ item }) {
   // Define background color based on item.status
   let bgColor;
   switch (item.status) {
@@ -22,11 +22,10 @@ function TableCard({ item}) {
     <div
       className={`table-card border text-white hover:shadow-lg cursor-pointer transition-all select-none ${bgColor}`}
     >
-         <span className="m-4 text-lg">
-          {item.title}/ {item.number}
-        </span>
+      <span className="m-4 text-lg">
+        {item.title}/ {item.number}
+      </span>
       <div className="product-stat flex flex-col p-3">
-     
         <span className="font-bold">{item.status}</span>
         <span className="people">People: {item.people} </span>
       </div>

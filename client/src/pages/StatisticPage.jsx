@@ -13,11 +13,11 @@ const StatisticPage = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const invoiceRes = await fetch("http://localhost:3000/api/invoices/get-invoices");
+        const invoiceRes = await fetch(import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices");
         const invoiceData = await invoiceRes.json();
         setData(invoiceData);
 
-        const productRes = await fetch("http://localhost:3000/api/products/get-all");
+        const productRes = await fetch(import.meta.env.VITE_SERVER_URL+"/api/products/get-all");
         const productData = await productRes.json();
         setProducts(productData);
       } catch (error) {
@@ -126,7 +126,7 @@ const StatisticPage = () => {
       {!data.length && (
         <Spin
           size="large"
-          className="absolute top-1/2 h-screen w-screen flex justify-center"
+          className="absolute top-2/3 h-screen w-screen flex justify-center"
         />
       )}
     </div>

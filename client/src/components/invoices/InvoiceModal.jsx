@@ -12,7 +12,7 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
   console.log(values)
     try {
       const res = await fetch(
-        "http://localhost:3000/api/invoices/add-invoice",
+        import.meta.env.VITE_SERVER_URL+"/api/invoices/add-invoice",
         {
           method: "POST",
           body: JSON.stringify({
@@ -88,7 +88,8 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
               <div className="border-t border-b">
                 <div className="flex justify-between p-2">
                   <b>Total</b>
-                  <span>$ {cart.total.toFixed(2)}</span>
+                {typeof cart.total === 'number' ? cart.total.toFixed(2) : '0.00'}
+                  <span>$ </span>
                 </div>
                 <div className="flex justify-between p-2">
                   <b>Each {cart.tax}%</b>
