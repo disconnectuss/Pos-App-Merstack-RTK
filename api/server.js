@@ -29,6 +29,12 @@ const connect = async () => {
 app.use(express.json());
 app.use(cors());
 app.use(logger("dev"));
+app.get("/health", (req, res) => {
+  res.status(200).send({
+    status: 200,
+    message: "Server is running"
+  })
+})
 app.use("/api/categories", categoryRoute)
 app.use("/api/products", productRoute)
 app.use("/api/invoices", invoiceRoute)
