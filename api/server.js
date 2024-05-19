@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const app = express();
 const cors = require("cors");
 const logger = require("morgan");
-const port = 3000;
+const port =import.meta.env.PORT || 3000;
 
 // routes   
 const categoryRoute = require("./routes/categories.js");
