@@ -88,8 +88,8 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
               <div className="border-t border-b">
                 <div className="flex justify-between p-2">
                   <b>Total</b>
-                {typeof cart.total === 'number' ? cart.total.toFixed(2) : '0.00'}
-                  <span>$ </span>
+                
+                  <span>$ {typeof cart.total === 'number' ? cart.total.toFixed(2) : '0.00'} </span>
                 </div>
                 <div className="flex justify-between p-2">
                   <b>Each {cart.tax}%</b>
