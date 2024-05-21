@@ -8,14 +8,18 @@ import {
   deleteFromCart,
   increment,
 } from "../redux/slices/cartSlice";
-import { PlusCircleOutlined, MinusCircleOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  PlusCircleOutlined,
+  MinusCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 
 const CartPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -25,10 +29,16 @@ const CartPage = () => {
   };
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText('');
+    setSearchText("");
   };
   const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
       <div
         style={{
           padding: 8,
@@ -39,11 +49,13 @@ const CartPage = () => {
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{
             marginBottom: 8,
-            display: 'block',
+            display: "block",
           }}
         />
         <Space>
@@ -95,7 +107,7 @@ const CartPage = () => {
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
-          color: filtered ? '#1677ff' : undefined,
+          color: filtered ? "#1677ff" : undefined,
         }}
       />
     ),
@@ -110,12 +122,12 @@ const CartPage = () => {
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{
-            backgroundColor: '#ffc069',
+            backgroundColor: "#ffc069",
             padding: 0,
           }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={text ? text.toString() : ""}
         />
       ) : (
         text
@@ -136,7 +148,7 @@ const CartPage = () => {
       title: "Product Title",
       dataIndex: "title",
       key: "title",
-      ...getColumnSearchProps('title'),
+      ...getColumnSearchProps("title"),
     },
     {
       title: "Category",
@@ -247,47 +259,52 @@ const CartPage = () => {
         pagination={false}
         scroll={{
           x: 1200,
-          y: 300
+          y: 300,
         }}
         rowKey="_id"
       />
       <div className="cart-total flex justify-end mt-4">
         <Card className="w-70 pr-2">
-        <div className="cart-totals mt-auto">
-        <div className="border-t border-b">
-          <div className="flex justify-between p-2">
-            <b>Total</b>
-            <span>$ {typeof cart.total === 'number' ? cart.total.toFixed(2) : '0.00'}</span>
-          </div>
-          <div className="flex justify-between p-2">
-            <b>Each {cart.tax}%</b>
-            <span className="text-red-700">
-              ${typeof cart.total === 'number' && cart.total > 0
+          <div className="cart-totals mt-auto">
+            <div className="border-t border-b">
+              <div className="flex justify-between p-2">
+                <b>Total</b>
+                <span>
+                  ${" "}
+                  {typeof cart.total === "number"
+                    ? cart.total.toFixed(2)
+                    : "0.00"}
+                </span>
+              </div>
+              <div className="flex justify-between p-2">
+                <b>Each {cart.tax}%</b>
+                <span className="text-red-700">
+                  $
+                  {typeof cart.total === "number" && cart.total > 0
                     ? `${((cart.total * cart.tax) / 100).toFixed(2)}`
-                    : '0.00'}{" "}
-              
-            </span>
-          </div>
-          <div className="border-b mt-4">
-            <div className="flex justify-between p-2 border-t">
-              <b>Cart Total : </b>
-              <span>
-                ${cart.total + (cart.total * cart.tax) / 100 > 0
-                  ? (cart.total + (cart.total * cart.tax) / 100).toFixed(2)
-                  : 0}{" "}
-                
-              </span>
+                    : "0.00"}{" "}
+                </span>
+              </div>
+              <div className="border-b mt-4">
+                <div className="flex justify-between p-2 border-t">
+                  <b>Cart Total : </b>
+                  <span>
+                    $
+                    {cart.total + (cart.total * cart.tax) / 100 > 0
+                      ? (cart.total + (cart.total * cart.tax) / 100).toFixed(2)
+                      : 0}{" "}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
           <Button
             onClick={() => {
               setIsModalOpen(true);
             }}
             className="cartAdd mt-4 w-full text-white"
             size="large"
-            disabled= {cart.cartItem.length === 0}
+            disabled={cart.cartItem.length === 0}
           >
             Add to Order
           </Button>
