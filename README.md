@@ -26,8 +26,8 @@ https://github.com/disconnectuss/Pos-App-Fullstack-ReduxToolkit/assets/129686850
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/disconnectuss/Pos-App-Fullstack-ReduxToolkit
-   cd Pos-App-Fullstack-ReduxToolkit
+   git clone https://github.com/disconnectuss/Pos-App-Merstack-RTK
+   cd Pos-App-Merstack-RTK
 
 2. **Backend
 cd ../api
