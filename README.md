@@ -6,6 +6,9 @@ This is a Point of Sale (POS) application built with the MERN stack (MongoDB, Ex
 ## Preview
 https://github.com/disconnectuss/Pos-App-Fullstack-ReduxToolkit/assets/129686850/c5b68c58-6bfd-4064-8710-d03c7c709d40
 
+## Deploy
+https://pos-app-merstack-rtk-1.onrender.com/
+
 ## Features
 - **Menu Management:** Browse the menu, add items to the cart, and generate invoices.
 - **Table Management:** View and manage the status of tables in the restaurant.
