@@ -8,6 +8,7 @@ import {
   deleteFromCart,
   increment,
 } from "../redux/slices/cartSlice";
+import { formatCurrency } from "../utils/formatters";
 import {
   PlusCircleOutlined,
   MinusCircleOutlined,
@@ -160,7 +161,7 @@ const CartPage = () => {
       dataIndex: "price",
       key: "price",
       render: (text) => {
-        return <span>$ {text.toFixed(2)}</span>;
+        return <span>{formatCurrency(text)}</span>;
       },
       sorter: (a, b) => a.price - b.price,
     },
@@ -222,7 +223,7 @@ const CartPage = () => {
       dataIndex: "total",
       key: "total",
       render: (text, record) => {
-        return <span>$ {(record.quantity * record.price).toFixed(2)}</span>;
+        return <span>{formatCurrency(record.quantity * record.price)}</span>;
       },
     },
     {

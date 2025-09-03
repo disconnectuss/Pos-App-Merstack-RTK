@@ -6,6 +6,8 @@ import { useState } from "react";
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
+  
   const onFinish = async (values) => {
     console.log(values);
     setLoading(true);
@@ -38,6 +40,40 @@ const Login = () => {
     }
     setLoading(false)
   };
+
+  const handleDemoLogin = async () => {
+    setDemoLoading(true);
+    try {
+      const demoCredentials = {
+        email: "demo@posapp.com",
+        password: "demo123"
+      };
+
+      const res = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(demoCredentials),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      });
+      const user = await res.json();
+
+      if (res.status === 200) {
+        localStorage.setItem(
+          "posUser", JSON.stringify({
+            username: user.userName,
+            email: user.email,
+        }))
+        message.success("Logged in as Demo User!");
+        navigate("/");
+      } else {
+        message.error("Demo user not available. Please contact administrator.");
+      }
+    } catch (error) {
+      message.error("Failed to login with demo user!");
+      console.log(error);
+    }
+    setDemoLoading(false);
+  };
+
   return (
     <div className="h-screen w-full flex flex-row">
       <div className="flex justify-between w-full h-full  min-w-[800px]">
@@ -86,6 +122,25 @@ const Login = () => {
               >
                 Login
               </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="default"
+                onClick={handleDemoLogin}
+                className="w-full"
+                size="large"
+                loading={demoLoading}
+                style={{ 
+                  borderColor: '#f59e0b', 
+                  color: '#f59e0b',
+                  borderWidth: '2px'
+                }}
+              >
+                🎮 Try Demo Login
+              </Button>
+              <div className="text-center mt-2 text-sm text-gray-500">
+                Email: demo@posapp.com | Password: demo123
+              </div>
             </Form.Item>
           </Form>
           <div className="flex justify-center absolute left-0 bottom-10 w-full">

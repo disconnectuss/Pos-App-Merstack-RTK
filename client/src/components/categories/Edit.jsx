@@ -34,7 +34,7 @@ const Edit = ({
   const deleteRow = (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
       try {
-        fetch(meta.env.VITE_SERVER_URL+ "/api/categories/delete-category", {
+        fetch(import.meta.env.VITE_SERVER_URL+ "/api/categories/delete-category", {
           method: "DELETE",
           body: JSON.stringify({ categoryId: id }),
           headers: { "Content-type": "application/json; charset=UTF-8" },

@@ -3,6 +3,7 @@ import { Area, Pie } from "@ant-design/plots";
 import { Spin } from "antd";
 import Header from "../components/header/Header";
 import StatCard from "../components/statistics/StatCard.jsx";
+import { formatCurrency, formatNumber, formatLargeNumber } from "../utils/formatters";
 
 const StatisticPage = () => {
   const [data, setData] = useState([]);
@@ -30,7 +31,7 @@ const StatisticPage = () => {
 
   const totalAmount = () => {
     const amount = data.reduce((total, item) => item.totalAmount + total, 0);
-    return `$ ${amount.toFixed(2)}`;
+    return formatCurrency(amount);
   };
 
   const configArea = {

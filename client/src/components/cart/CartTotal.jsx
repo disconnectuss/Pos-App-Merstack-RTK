@@ -12,6 +12,7 @@ import {
   reset,
 } from "../../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { formatCurrency } from "../../utils/formatters";
 
 const CartTotal = () => {
   const cart = useSelector((state) => state.cart);
@@ -42,7 +43,7 @@ const CartTotal = () => {
                     <div className="flex flex-col ml-2">
                       <b>{item.title}</b>
                       <span>
-                        $ {item.price} x {item.quantity}{" "}
+                        {formatCurrency(item.price)} x {item.quantity} = {formatCurrency(item.price * item.quantity)}
                       </span>
                     </div>
                   </div>
@@ -100,26 +101,24 @@ const CartTotal = () => {
           <div className="flex justify-between p-2">
             <b>Total</b>
             <span>
-              ${typeof cart.total === "number" ? cart.total.toFixed(2) : "0.00"}
+              {formatCurrency(typeof cart.total === "number" ? cart.total : 0)}
             </span>
           </div>
           <div className="flex justify-between p-2">
-            <b>Each {cart.tax}%</b>
+            <b>Tax {cart.tax}%</b>
             <span className="text-red-700">
-              $
-              {typeof cart.total === "number" && cart.total > 0
-                ? `${((cart.total * cart.tax) / 100).toFixed(2)}`
-                : "0.00"}{" "}
+              {formatCurrency(typeof cart.total === "number" && cart.total > 0
+                ? (cart.total * cart.tax) / 100
+                : 0)}
             </span>
           </div>
           <div className="border-b mt-4">
             <div className="flex justify-between p-2 border-t">
               <b>Cart Total</b>
               <span>
-                $
-                {cart.total + (cart.total * cart.tax) / 100 > 0
-                  ? (cart.total + (cart.total * cart.tax) / 100)
-                  : 0}{" "}
+                {formatCurrency(cart.total + (cart.total * cart.tax) / 100 > 0
+                  ? cart.total + (cart.total * cart.tax) / 100
+                  : 0)}
               </span>
             </div>
           </div>

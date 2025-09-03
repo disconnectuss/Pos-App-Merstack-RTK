@@ -1,13 +1,12 @@
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
+import { formatCurrency } from "../../utils/formatters";
 
 const ProductItem = ({ item }) => {
   const dispatch = useDispatch();
 
-
   const handleClick = () => {
     dispatch(addToCart({...item, quantity: 1}))
- 
   };
  
   return (
@@ -25,7 +24,7 @@ const ProductItem = ({ item }) => {
       </div>
       <div className="product-info flex flex-col p-3">
         <span className="font-bold">{item.title}</span>
-        <span>$ {item.price}</span>
+        <span className="text-green-600 font-semibold">{formatCurrency(item.price)}</span>
       </div>
     </div>
   );

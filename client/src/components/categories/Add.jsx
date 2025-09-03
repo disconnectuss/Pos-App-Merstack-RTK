@@ -12,7 +12,7 @@ const Add = ({
   const handleSubmit = async (values) => {
     try {
       const response = await fetch(
-        import.meta.env.VITE_SERVER_URL+ "/categories/add-category",
+        import.meta.env.VITE_SERVER_URL+ "/api/categories/add-category",
         {
           method: "POST",
           body: JSON.stringify(values),
