@@ -1,8 +1,8 @@
 # Netlify Configuration for POS App
 [build]
-  base = "client"
-  publish = "dist"
-  command = "npm run build"
+  base = "."
+  publish = "client/dist"
+  command = "cd client && npm install && npm run build"
   functions = "netlify/functions"
 
 # Environment variables
