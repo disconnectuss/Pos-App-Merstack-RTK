@@ -55,7 +55,6 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Connect to database middleware
 app.use(async (req, res, next) => {
-  console.log("Request path:", req.path, "Full URL:", req.url);
   try {
     await connectToDatabase();
     next();
@@ -69,25 +68,24 @@ app.use(async (req, res, next) => {
 });
 
 // Health check
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.status(200).json({
     status: 200,
     message: "POS API Server is running on Netlify",
-    timestamp: new Date().toISOString(),
-    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
+    timestamp: new Date().toISOString()
   });
 });
 
-// API Routes (without /api prefix since we're already at /.netlify/functions/api)
-app.use("/categories", categoryRoute);
-app.use("/products", productRoute);
-app.use("/invoices", invoiceRoute);
-app.use("/auth", authRoute);
-app.use("/users", userRoute);
-app.use("/tables", tableRoute);
+// API Routes
+app.use("/api/categories", categoryRoute);
+app.use("/api/products", productRoute);
+app.use("/api/invoices", invoiceRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/tables", tableRoute);
 
 // Health check endpoint
-app.get("/health", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
     message: "API is working",
@@ -115,6 +113,4 @@ app.use((req, res) => {
   });
 });
 
-module.exports.handler = serverless(app, {
-  basePath: "/.netlify/functions/api"
-});
+module.exports.handler = serverless(app);

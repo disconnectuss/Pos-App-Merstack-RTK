@@ -39,7 +39,7 @@ const EditTables = ({
   const deleteRow = async (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
       try {
-        await fetch("http://localhost:3000/api/tables/delete-table", {
+        await fetch(import.meta.env.VITE_SERVER_URL + "/api/tables/delete-table", {
           method: "DELETE",
           body: JSON.stringify({ tableId: id }),
           headers: { "Content-type": "application/json; charset=UTF-8" },

@@ -8,6 +8,23 @@ body {
   color: white; */
   margin: 0;
   font-family: 'Kalnia', serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .ant-form-item-label {
+    padding-bottom: 4px !important;
+  }
+  
+  .ant-input {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+  
+  .ant-btn {
+    min-height: 44px !important; /* Minimum touch target size */
+  }
 }
 
 .addToOrder {
@@ -36,5 +53,33 @@ body {
 
 .menu-link.active {
   @apply !text-red-800;
+}
+
+/* Ensure proper touch targets on mobile */
+@media (max-width: 768px) {
+  .menu-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Fix any overflow issues on mobile */
+.header-search {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .header-search {
+    flex: 1;
+    margin: 0 10px;
+  }
+  
+  .logo h2 {
+    font-size: 1.5rem !important;
+  }
 }
 

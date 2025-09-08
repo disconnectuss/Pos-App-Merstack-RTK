@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "🔧 Setting up MongoDB Atlas for your POS App"
+echo ""
+echo "1. Go to https://www.mongodb.com/cloud/atlas"
+echo "2. Create a free account"
+echo "3. Create a new cluster (free tier)"
+echo "4. Go to Database Access → Add Database User"
+echo "   - Username: posapp"
+echo "   - Password: [generate a secure password]"
+echo "5. Go to Network Access → Add IP Address"
+echo "   - Add: 0.0.0.0/0 (allow from anywhere)"
+echo "6. Go to Clusters → Connect → Connect your application"
+echo "7. Copy the connection string"
+echo ""
+echo "8. Then run this command with your actual connection string:"
+echo 'netlify env:set MONGO_URI "mongodb+srv://posapp:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/posapp?retryWrites=true&w=majority" --context production --force'
+echo ""
+echo "9. Redeploy:"
+echo "netlify deploy --prod"
+echo ""
+echo "Your app will then work with login functionality!"

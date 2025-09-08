@@ -26,16 +26,16 @@ const Header = ({ setSearch }) => {
 
   return (
     <div className="border-b mb-6">
-      <header className="py-4 px-6 flex justify-between items-center gap-10">
-        <div className="logo">
+      <header className="py-4 px-2 md:px-6 flex justify-between items-center gap-2 md:gap-10">
+        <div className="logo flex-shrink-0">
           <a href="/">
-            <h2 className="text-2xl font-bold md:text-4xl text-red-700">
+            <h2 className="text-lg md:text-2xl lg:text-4xl font-bold text-red-700">
               LOGO
             </h2>
           </a>
         </div>
         <div
-          className="header-search flex justify-center"
+          className="header-search flex justify-center flex-1 mx-2 md:mx-4"
           onClick={() => {
             pathname !== "/" && navigate("/");
           }}
@@ -44,7 +44,7 @@ const Header = ({ setSearch }) => {
             size="large"
             placeholder="Search here..."
             prefix={<SearchOutlined />}
-            className="rounded-full max-w-[800px]"
+            className="rounded-full max-w-[800px] w-full"
             onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
           />
         </div>
@@ -52,7 +52,7 @@ const Header = ({ setSearch }) => {
         <div
           className="menu-links flex justify-between items-center gap-7 
           md:static fixed z-50 bottom-0 md:w-auto w-screen md:bg-transparent bg-white 
-          left-0 md:border-t-0 border-t md:px-0 px-4 py-1"
+          left-0 md:border-t-0 border-t md:px-0 px-4 py-1 md:py-0 shadow-lg md:shadow-none"
         >
           {/* Home Link */}
           <Link
