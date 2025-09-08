@@ -41,13 +41,17 @@ const connectToDatabase = async () => {
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? [
-        process.env.NETLIFY_URL, 
-        process.env.URL,
-        "https://posapp-restaurant.netlify.app",
-        "https://68bede4f4462e295a9b808db--posapp-restaurant.netlify.app"
-      ] 
-    : ["http://localhost:5173", "http://localhost:3000"],
+    ? (origin, callback) => {
+        // Allow all netlify.app domains and the main domain
+        if (!origin || 
+            origin.includes('netlify.app') || 
+            origin === 'https://posapp-restaurant.netlify.app') {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      }
+    : ["http://localhost:5173", "http://localhost:3000", "http://localhost:4173"],
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));

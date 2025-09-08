@@ -4,6 +4,7 @@ import Categories from "../components/categories/Categories";
 import Header from "../components/header/Header";
 import Products from "../components/products/Products";
 import { Spin } from "antd";
+import getApiUrl from "../utils/apiUtils";
 
 const Home = () => {
   const [categories, setCategories] = useState();
@@ -19,9 +20,7 @@ const Home = () => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const res = await fetch(
-          import.meta.env.VITE_SERVER_URL+"/api/categories/get-all"
-        );
+        const res = await fetch(getApiUrl("/categories/get-all"));
         const data = await res.json();
         data &&
           setCategories(

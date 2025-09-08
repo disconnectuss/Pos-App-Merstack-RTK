@@ -2,6 +2,7 @@ import { Button, Form, Input, Carousel, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import AuthCarousel from "./AuthCarousel";
 import { useState } from "react";
+import getApiUrl from "../../utils/apiUtils";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Login = () => {
     console.log(values);
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/login", {
+      const res = await fetch(getApiUrl("/auth/login"), {
         method: "POST",
         body: JSON.stringify(values),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -49,7 +50,7 @@ const Login = () => {
         password: "demo123"
       };
 
-      const res = await fetch("http://localhost:3000/api/auth/login", {
+      const res = await fetch(getApiUrl("/auth/login"), {
         method: "POST",
         body: JSON.stringify(demoCredentials),
         headers: { "Content-type": "application/json; charset=UTF-8" },
