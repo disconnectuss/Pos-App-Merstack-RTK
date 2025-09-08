@@ -9,34 +9,43 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async (values) => {
-  console.log(values)
+  console.log("Form values:", values)
+  console.log("Cart data:", cart)
     try {
+      const invoiceData = {
+        ...values,
+        subTotal: cart.total,
+        tax: cart.tax,
+        totalAmount: (cart.total + (cart.total * cart.tax) / 100).toFixed(2),
+        cartItems: cart.cartItem,
+      };
+      console.log("Sending invoice data:", invoiceData);
+      
       const res = await fetch(
         import.meta.env.VITE_SERVER_URL+"/api/invoices/add-invoice",
         {
           method: "POST",
-          body: JSON.stringify({
-            ...values,
-            subTotal: cart.total,
-            tax: cart.tax,
-            totalAmount: (cart.total + (cart.total * cart.tax) / 100).toFixed(
-              2
-            ),
-            cartItems: cart.cartItem,
-          }),
+          body: JSON.stringify(invoiceData),
           headers: {
             "Content-Type": "application/json", // Fixed syntax error and added correct header
           },
         }
       );
+      
+      const responseData = await res.text();
+      console.log("Response status:", res.status);
+      console.log("Response data:", responseData);
+      
       if (res.status === 200) {
         message.success("Successfully created invoice.");
         dispatch(reset());
         navigate("/invoice")
+      } else {
+        message.error(`Failed to create invoice: ${responseData}`);
       }
     } catch (error) {
       message.error("Something went wrong");
-      console.log(error);
+      console.log("Error:", error);
     }
   };
 

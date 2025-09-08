@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const InvoiceSchema = mongoose.Schema(
   {
-    customerName: { type: String, require: true },
-    customerTel: { type: String, require: true },
-    cartItems: { type: Array, require: true },
-    paymentMethod: { type: String, require: true },
-    subTotal: { type: Number, require: true },
-    tax: { type: Number, require: true },
-    totalAmount: { type: Number, require: true },
+    customerName: { type: String, required: true },
+    customerTel: { type: String, required: true },
+    cartItems: { type: Array, required: true },
+    paymentMethod: { type: String, required: true },
+    subTotal: { type: Number, required: true },
+    tax: { type: Number, required: true },
+    totalAmount: { type: Number, required: true },
   },
   { timestamps: true }
 );

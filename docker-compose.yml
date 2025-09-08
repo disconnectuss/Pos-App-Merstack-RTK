@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: pos-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: pos-app
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - pos-network
+
+  # Backend API
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: pos-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/pos-app?authSource=admin
+      PORT: 3000
+      NODE_ENV: production
+    depends_on:
+      - mongodb
+    networks:
+      - pos-network
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+
+  # Frontend Client
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: pos-client
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - pos-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  pos-network:
+    driver: bridge

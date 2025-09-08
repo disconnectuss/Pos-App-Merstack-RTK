@@ -125,12 +125,43 @@ const InvoicePage = () => {
           import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices"
         );
         const data = await res.json();
+        console.log("Fetched invoices:", data);
         setInvoices(data);
       } catch (error) {
         console.log(error);
       }
     };
     getInvoices();
+  }, []);
+
+  // Refetch invoices when component comes into focus (when navigating back)
+  useEffect(() => {
+    const handleFocus = async () => {
+      try {
+        const res = await fetch(
+          import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices"
+        );
+        const data = await res.json();
+        console.log("Refetched invoices on focus:", data);
+        setInvoices(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        handleFocus();
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
   // console.log(invoices);
 
