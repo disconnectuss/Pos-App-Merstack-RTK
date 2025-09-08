@@ -3,18 +3,20 @@
   base = "client"
   publish = "dist"
   command = "npm run build"
+  functions = "netlify/functions"
 
 # Environment variables
 [build.environment]
   NODE_VERSION = "18"
   NPM_VERSION = "9"
 
-# Redirects for SPA routing
+# Redirects for API
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  to = "/.netlify/functions/api/:splat"
   status = 200
 
+# Redirects for SPA routing  
 [[redirects]]
   from = "/*"
   to = "/index.html"
