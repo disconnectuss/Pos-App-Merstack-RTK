@@ -31,13 +31,12 @@ const connectToDatabase = async () => {
     console.log("MONGO_URI includes pos-app:", process.env.MONGO_URI?.includes('pos-app'));
     
     await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 5000,
-      connectTimeoutMS: 5000,
+      bufferCommands: false,
       bufferMaxEntries: 0,
-      maxPoolSize: 1,  // Single connection for serverless
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 30000,
+      connectTimeoutMS: 30000,
     });
     console.log("Connected to MongoDB successfully");
   } catch (error) {
