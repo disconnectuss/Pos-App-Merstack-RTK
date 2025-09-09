@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -11,6 +6,5 @@
     }
   ],
   "buildCommand": "cd client && npm install && npm run build",
-  "outputDirectory": "client/dist",
-  "installCommand": "npm install"
+  "outputDirectory": "client/dist"
 }
