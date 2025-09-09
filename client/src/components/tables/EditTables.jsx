@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, message, Modal, Select, Table } from "antd";
-import getApiUrl from "../../utils/apiUtils";
 
 const EditTables = ({
   isEditModalOpen,
@@ -14,7 +13,7 @@ const EditTables = ({
 
   const onFinish = async (values) => {
     try {
-      await fetch(getApiUrl("/tables/update-table"), {
+      await fetch(import.meta.env.VITE_SERVER_URL+ "/api/tables/update-table", {
         method: "PUT",
         body: JSON.stringify({ ...values, tableId: editRow._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -40,7 +39,7 @@ const EditTables = ({
   const deleteRow = async (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
       try {
-        await fetch(getApiUrl("/tables/delete-table"), {
+        await fetch(import.meta.env.VITE_SERVER_URL + "/api/tables/delete-table", {
           method: "DELETE",
           body: JSON.stringify({ tableId: id }),
           headers: { "Content-type": "application/json; charset=UTF-8" },

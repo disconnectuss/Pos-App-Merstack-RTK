@@ -3,7 +3,6 @@ import ProductItem from "./ProductItem";
 import { PlusOutlined, EditOutlined } from "@ant-design/icons";
 import AddProducts from "./AddProducts";
 import { useNavigate } from "react-router-dom";
-import getApiUrl from "../../utils/apiUtils";
 
 const Products = ({ categories, filtered, setProducts, search }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -12,7 +11,7 @@ const Products = ({ categories, filtered, setProducts, search }) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await fetch(getApiUrl("/products/get-all"));
+        const res = await fetch(import.meta.env.VITE_SERVER_URL+ "/api/products/get-all");
         const data = await res.json();
         setProducts(data);
         // console.log(data);

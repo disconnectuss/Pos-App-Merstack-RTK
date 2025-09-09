@@ -2,7 +2,6 @@ import { Button, Card, Input, Modal, Select, Form, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { reset } from "../../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
-import getApiUrl from "../../utils/apiUtils";
 
 
 const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
@@ -23,7 +22,7 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
       console.log("Sending invoice data:", invoiceData);
       
       const res = await fetch(
-        getApiUrl("/invoices/add-invoice"),
+        import.meta.env.VITE_SERVER_URL+"/api/invoices/add-invoice",
         {
           method: "POST",
           body: JSON.stringify(invoiceData),

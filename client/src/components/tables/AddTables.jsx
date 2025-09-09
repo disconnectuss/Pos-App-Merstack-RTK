@@ -1,5 +1,4 @@
 import { Button, Form, Input, message, Modal, Select } from "antd";
-import getApiUrl from "../../utils/apiUtils";
 
 const AddTables = ({
   isAddModalOpen,
@@ -12,7 +11,7 @@ const AddTables = ({
 
   const handleSubmit = (values) => {
     try {
-      fetch(getApiUrl("/tables/add-table"), {
+      fetch(import.meta.env.VITE_SERVER_URL+"/api/tables/add-table", {
         method: "POST",
         body: JSON.stringify(values),
         headers: { "Content-type": "application/json; charset=UTF-8" },
