@@ -28,6 +28,12 @@ router.post("/login", async (req, res) => {
   try {
     console.log("Login request body:", req.body);
     console.log("Looking for user with email:", req.body.email);
+    console.log("Database connection state:", mongoose.connection.readyState);
+    console.log("Database name:", mongoose.connection.db?.databaseName);
+    
+    // Test if we can query the collection at all
+    const userCount = await User.countDocuments();
+    console.log("Total users in collection:", userCount);
     
     const user = await User.findOne({ email: req.body.email });
     console.log("User found:", user ? "Yes" : "No");
