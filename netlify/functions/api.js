@@ -26,6 +26,10 @@ const connectToDatabase = async () => {
     }
     
     console.log("Connecting to MongoDB...");
+    console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+    console.log("MONGO_URI starts with mongodb+srv:", process.env.MONGO_URI?.startsWith('mongodb+srv'));
+    console.log("MONGO_URI includes pos-app:", process.env.MONGO_URI?.includes('pos-app'));
+    
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
