@@ -48,6 +48,15 @@ export default async function handler(req, res) {
   const { query } = req;
   const endpoint = query.slug?.[0]; // First part of path
 
+  // Add a simple test endpoint
+  if (endpoint === 'test') {
+    return res.status(200).json({ 
+      message: 'API is working!', 
+      timestamp: new Date().toISOString(),
+      mongoUri: process.env.MONGO_URI ? 'Present' : 'Missing'
+    });
+  }
+
   try {
     // AUTH ROUTES
     if (endpoint === 'auth') {
