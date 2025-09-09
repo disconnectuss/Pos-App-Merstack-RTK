@@ -138,3 +138,4 @@ app.use((req, res) => {
 module.exports.handler = serverless(app, {
   basePath: "/.netlify/functions/api"
 });
+// Force redeploy Tue Sep  9 16:47:08 +03 2025
