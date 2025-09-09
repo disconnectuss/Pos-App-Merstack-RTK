@@ -17,21 +17,28 @@ dotenv.config();
 const app = express();
 
 // Database connection
-let isConnected = false;
-
 const connectToDatabase = async () => {
-  if (isConnected) {
-    console.log("Using existing database connection");
-    return;
-  }
-
   try {
+    // Always disconnect first for serverless functions
+    if (mongoose.connection.readyState !== 0) {
+      console.log("Disconnecting existing connection");
+      await mongoose.disconnect();
+    }
+    
+    console.log("Connecting to MongoDB...");
+    console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+    console.log("MONGO_URI starts with mongodb+srv:", process.env.MONGO_URI?.startsWith('mongodb+srv'));
+    console.log("MONGO_URI includes pos-app:", process.env.MONGO_URI?.includes('pos-app'));
+    
     await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      bufferCommands: false,
+      bufferMaxEntries: 0,
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 30000,
+      connectTimeoutMS: 30000,
     });
-    isConnected = true;
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB successfully");
   } catch (error) {
     console.error("MongoDB connection error:", error);
     throw error;
@@ -41,13 +48,17 @@ const connectToDatabase = async () => {
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? [
-        process.env.NETLIFY_URL, 
-        process.env.URL,
-        "https://posapp-restaurant.netlify.app",
-        "https://68bede4f4462e295a9b808db--posapp-restaurant.netlify.app"
-      ] 
-    : ["http://localhost:5173", "http://localhost:3000"],
+    ? (origin, callback) => {
+        // Allow all netlify.app domains and the main domain
+        if (!origin || 
+            origin.includes('netlify.app') || 
+            origin === 'https://posapp-restaurant.netlify.app') {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      }
+    : ["http://localhost:5173", "http://localhost:3000", "http://localhost:4173"],
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -55,10 +66,17 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Connect to database middleware
 app.use(async (req, res, next) => {
+  console.log("Request path:", req.path, "Full URL:", req.url);
   try {
+    // Skip database connection for health check
+    if (req.path === '/health') {
+      return next();
+    }
+    // Fresh connection for each request in serverless
     await connectToDatabase();
     next();
   } catch (error) {
+    console.error("Database connection error:", error);
     res.status(500).json({
       status: 500,
       message: "Database connection failed",
@@ -68,29 +86,32 @@ app.use(async (req, res, next) => {
 });
 
 // Health check
-app.get("/api", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).json({
     status: 200,
     message: "POS API Server is running on Netlify",
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
   });
 });
 
-// API Routes
-app.use("/api/categories", categoryRoute);
-app.use("/api/products", productRoute);
-app.use("/api/invoices", invoiceRoute);
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/tables", tableRoute);
+// API Routes (without /api prefix since we're already at /.netlify/functions/api)
+app.use("/categories", categoryRoute);
+app.use("/products", productRoute);
+app.use("/invoices", invoiceRoute);
+app.use("/auth", authRoute);
+app.use("/users", userRoute);
+app.use("/tables", tableRoute);
 
 // Health check endpoint
-app.get("/api/health", (req, res) => {
+app.get("/health", (req, res) => {
   res.json({
     status: "ok",
     message: "API is working",
     timestamp: new Date().toISOString(),
-    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    mongoUri: process.env.MONGO_URI ? "SET" : "NOT SET",
+    mongoUriFirst50: process.env.MONGO_URI ? process.env.MONGO_URI.substring(0, 50) + "..." : "NONE"
   });
 });
 
@@ -113,4 +134,8 @@ app.use((req, res) => {
   });
 });
 
-module.exports.handler = serverless(app);
+module.exports.handler = serverless(app, {
+  basePath: "/.netlify/functions/api"
+});
+// Force redeploy Tue Sep  9 16:47:08 +03 2025
+// Force redeploy Tue Sep  9 18:45:55 +03 2025
