@@ -138,3 +138,4 @@ module.exports.handler = serverless(app, {
   basePath: "/.netlify/functions/api"
 });
 // Force redeploy Tue Sep  9 16:47:08 +03 2025
+// Force redeploy Tue Sep  9 18:45:55 +03 2025
