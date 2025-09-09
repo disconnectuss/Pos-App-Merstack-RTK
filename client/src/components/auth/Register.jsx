@@ -1,6 +1,7 @@
 import { Button, Form, Input, Carousel, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import AuthCarousel from "./AuthCarousel";
+import getApiUrl from "../../utils/apiUtils";
 import { useState } from "react";
 
 const Register = () => {
@@ -10,7 +11,11 @@ const Register = () => {
     console.log(values)
     setLoading(true);
     try {
-      const res = await fetch(import.meta.env.VITE_SERVER_URL + "/api/auth/register", {
+      const apiUrl = getApiUrl("/auth/register");
+      console.log("🚀 Register API URL:", apiUrl);
+      console.log("🌍 Window origin:", window.location.origin);
+      
+      const res = await fetch(apiUrl, {
         method: "POST",
         body: JSON.stringify(values),
         headers: { "Content-type": "application/json; charset=UTF-8" },
