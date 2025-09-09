@@ -4,6 +4,7 @@ import { Spin } from "antd";
 import Header from "../components/header/Header";
 import StatCard from "../components/statistics/StatCard.jsx";
 import { formatCurrency, formatNumber, formatLargeNumber } from "../utils/formatters";
+import getApiUrl from "../utils/apiUtils";
 
 const StatisticPage = () => {
   const [data, setData] = useState([]);
@@ -14,11 +15,11 @@ const StatisticPage = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const invoiceRes = await fetch(import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices");
+        const invoiceRes = await fetch(getApiUrl("/invoices/get-invoices"));
         const invoiceData = await invoiceRes.json();
         setData(invoiceData);
 
-        const productRes = await fetch(import.meta.env.VITE_SERVER_URL+"/api/products/get-all");
+        const productRes = await fetch(getApiUrl("/products/get-all"));
         const productData = await productRes.json();
         setProducts(productData);
       } catch (error) {
