@@ -6,6 +6,7 @@ import TableCard from "../components/tables/TableCard";
 import EditTables from "../components/tables/EditTables";
 import { EditOutlined, PlusOutlined, SearchOutlined, FilterOutlined, UserOutlined } from "@ant-design/icons";
 import { getTableStatusConfig, formatNumber } from "../utils/formatters";
+import getApiUrl from "../utils/apiUtils";
 
 const { Option } = Select;
 const { Search } = Input;
@@ -54,7 +55,7 @@ const TablePage = () => {
   useEffect(() => {
     const getTables = async () => {
       try {
-        const res = await fetch(import.meta.env.VITE_SERVER_URL+ "/api/tables/get-all");
+        const res = await fetch(getApiUrl("/tables/get-all"));
         const data = await res.json();
         setTables(data);
         // console.log(data);

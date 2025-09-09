@@ -1,6 +1,7 @@
 import { Button, Form, Input, message, Modal } from "antd";
 import Categories from "./Categories";
 import { useState } from "react";
+import getApiUrl from "../../utils/apiUtils";
 
 const Add = ({
   isAddModalOpen,
@@ -12,7 +13,7 @@ const Add = ({
   const handleSubmit = async (values) => {
     try {
       const response = await fetch(
-        import.meta.env.VITE_SERVER_URL+ "/api/categories/add-category",
+        getApiUrl("/categories/add-category"),
         {
           method: "POST",
           body: JSON.stringify(values),

@@ -1,6 +1,7 @@
 import { Button, Form, Input, message, Modal, Select } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Products from "./Products";
+import getApiUrl from "../../utils/apiUtils";
 
 const AddProducts = ({
   isAddModalOpen,
@@ -13,7 +14,7 @@ const AddProducts = ({
 
   const handleSubmit = (values) => {
     try {
-      fetch(import.meta.env.VITE_SERVER_URL+"/api/products/add-product", {
+      fetch(getApiUrl("/products/add-product"), {
         method: "POST",
         body: JSON.stringify(values),
         headers: { "Content-type": "application/json; charset=UTF-8" },

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Input, message, Modal, Table } from "antd";
+import getApiUrl from "../../utils/apiUtils";
 
 const Edit = ({
   isEditModalOpen,
@@ -12,7 +13,7 @@ const Edit = ({
 
   const onFinish = (values) => {
     try {
-      fetch(import.meta.env.VITE_SERVER_URL+ "/api/categories/update-category", {
+      fetch(getApiUrl("/categories/update-category"), {
         method: "PUT",
         body: JSON.stringify({ ...values, categoryId: editRow._id }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -34,7 +35,7 @@ const Edit = ({
   const deleteRow = (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
       try {
-        fetch(import.meta.env.VITE_SERVER_URL+ "/api/categories/delete-category", {
+        fetch(getApiUrl("/categories/delete-category"), {
           method: "DELETE",
           body: JSON.stringify({ categoryId: id }),
           headers: { "Content-type": "application/json; charset=UTF-8" },
