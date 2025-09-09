@@ -115,7 +115,7 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
     database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
     mongoUri: process.env.MONGO_URI ? "SET" : "NOT SET",
-    mongoUriLength: process.env.MONGO_URI ? process.env.MONGO_URI.length : 0
+    mongoUriFirst50: process.env.MONGO_URI ? process.env.MONGO_URI.substring(0, 50) + "..." : "NONE"
   });
 });
 
