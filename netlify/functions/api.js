@@ -29,6 +29,10 @@ const connectToDatabase = async () => {
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      bufferMaxEntries: 0,
+      maxPoolSize: 10,
     });
     isConnected = true;
     console.log("Connected to MongoDB");
@@ -61,9 +65,14 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(async (req, res, next) => {
   console.log("Request path:", req.path, "Full URL:", req.url);
   try {
+    // Skip database connection for health check
+    if (req.path === '/health') {
+      return next();
+    }
     await connectToDatabase();
     next();
   } catch (error) {
+    console.error("Database connection error:", error);
     res.status(500).json({
       status: 500,
       message: "Database connection failed",
