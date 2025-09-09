@@ -17,31 +17,25 @@ dotenv.config();
 const app = express();
 
 // Database connection
-let isConnected = false;
-
 const connectToDatabase = async () => {
-  if (isConnected && mongoose.connection.readyState === 1) {
-    console.log("Using existing database connection");
-    return;
-  }
-
   try {
-    // Disconnect if there's a stale connection
+    // Always disconnect first for serverless functions
     if (mongoose.connection.readyState !== 0) {
+      console.log("Disconnecting existing connection");
       await mongoose.disconnect();
     }
     
-    console.log("Attempting to connect to:", process.env.MONGO_URI ? "URI provided" : "NO URI PROVIDED");
+    console.log("Connecting to MongoDB...");
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
+      socketTimeoutMS: 5000,
+      connectTimeoutMS: 5000,
       bufferMaxEntries: 0,
-      maxPoolSize: 10,
+      maxPoolSize: 1,  // Single connection for serverless
     });
-    isConnected = true;
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB successfully");
   } catch (error) {
     console.error("MongoDB connection error:", error);
     throw error;
@@ -75,8 +69,7 @@ app.use(async (req, res, next) => {
     if (req.path === '/health') {
       return next();
     }
-    // Force fresh connection for each request
-    isConnected = false;
+    // Fresh connection for each request in serverless
     await connectToDatabase();
     next();
   } catch (error) {
