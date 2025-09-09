@@ -6,8 +6,8 @@ export const getApiUrl = (endpoint) => {
   const isVercel = baseUrl.includes('vercel.app');
   
   if (isVercel) {
-    // For Vercel, add /api prefix for serverless functions
-    return `${baseUrl}${endpoint}`;
+    // For Vercel serverless functions with catch-all routes
+    return `${baseUrl}/api${endpoint}`;
   } else {
     // For local development, add /api prefix
     return `${baseUrl}/api${endpoint}`;

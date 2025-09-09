@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const User = require('../api/models/User.js');
+
+// Models
+const User = require('./models/User.js');
+const Category = require('./models/Category.js');
+const Product = require('./models/Product.js');
+const Invoice = require('./models/Invoice.js');
+const Table = require('./models/Table.js');
 
 // Database connection
 let isConnected = false;
@@ -39,40 +45,34 @@ export default async function handler(req, res) {
 
   await connectToDatabase();
 
-  if (req.method === 'POST') {
-    const { url } = req;
-    
-    if (url.includes('/login')) {
-      try {
-        console.log("Login request body:", req.body);
-        console.log("Looking for user with email:", req.body.email);
-        
+  const { query } = req;
+  const endpoint = query.slug?.[0]; // First part of path
+
+  try {
+    // AUTH ROUTES
+    if (endpoint === 'auth') {
+      const action = query.slug?.[1]; // login or register
+      
+      if (action === 'login' && req.method === 'POST') {
         const user = await User.findOne({ email: req.body.email });
-        console.log("User found:", user ? "Yes" : "No");
         
         if (!user) {
           return res.status(404).json({ error: "User not found!" });
         }
         
         const validPassword = await bcrypt.compare(req.body.password, user.password);
-        console.log("Password valid:", validPassword);
         
         if (!validPassword) {
           return res.status(403).json({ error: "Invalid Password!" });
-        } else {
-          return res.status(200).json({
-            username: user.userName,
-            email: user.email
-          });
         }
-      } catch (error) {
-        console.error("Login error:", error);
-        return res.status(400).json({ error: error.message || "Login failed" });
+        
+        return res.status(200).json({
+          username: user.userName,
+          email: user.email
+        });
       }
-    }
-
-    if (url.includes('/register')) {
-      try {
+      
+      if (action === 'register' && req.method === 'POST') {
         const { userName, email, password } = req.body;
         
         const existingUser = await User.findOne({ email });
@@ -86,12 +86,41 @@ export default async function handler(req, res) {
         await newUser.save();
         
         return res.status(200).json({ message: "Successfully registered!" });
-      } catch (error) {
-        console.error("Registration error:", error);
-        return res.status(400).json({ error: error.message || "Registration failed" });
       }
     }
-  }
 
-  return res.status(404).json({ error: "Endpoint not found" });
+    // CATEGORIES ROUTES
+    if (endpoint === 'categories') {
+      if (req.method === 'GET') {
+        const categories = await Category.find();
+        return res.status(200).json(categories);
+      }
+      
+      if (req.method === 'POST') {
+        const newCategory = new Category(req.body);
+        await newCategory.save();
+        return res.status(200).json({ message: "Category created successfully!" });
+      }
+    }
+
+    // PRODUCTS ROUTES  
+    if (endpoint === 'products') {
+      if (req.method === 'GET') {
+        const products = await Product.find();
+        return res.status(200).json(products);
+      }
+      
+      if (req.method === 'POST') {
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+        return res.status(200).json({ message: "Product created successfully!" });
+      }
+    }
+
+    return res.status(404).json({ error: "Endpoint not found" });
+    
+  } catch (error) {
+    console.error('API error:', error);
+    return res.status(400).json({ error: error.message });
+  }
 }
