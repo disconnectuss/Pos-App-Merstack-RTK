@@ -106,7 +106,9 @@ app.get("/health", (req, res) => {
     status: "ok",
     message: "API is working",
     timestamp: new Date().toISOString(),
-    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    mongoUri: process.env.MONGO_URI ? "SET" : "NOT SET",
+    mongoUriLength: process.env.MONGO_URI ? process.env.MONGO_URI.length : 0
   });
 });
 
