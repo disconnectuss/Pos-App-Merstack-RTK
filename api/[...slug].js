@@ -77,13 +77,19 @@ export default async function handler(req, res) {
       const action = query.slug?.[1]; // login or register
       
       if (action === 'login' && req.method === 'POST') {
+        console.log("🔐 Login attempt:", req.body.email);
+        console.log("🌍 Environment:", process.env.NODE_ENV);
+        console.log("📊 MongoDB URI present:", !!process.env.MONGO_URI);
+        
         const user = await User.findOne({ email: req.body.email });
+        console.log("👤 User found:", user ? "Yes" : "No");
         
         if (!user) {
           return res.status(404).json({ error: "User not found!" });
         }
         
         const validPassword = await bcrypt.compare(req.body.password, user.password);
+        console.log("🔑 Password valid:", validPassword);
         
         if (!validPassword) {
           return res.status(403).json({ error: "Invalid Password!" });
@@ -97,8 +103,11 @@ export default async function handler(req, res) {
       
       if (action === 'register' && req.method === 'POST') {
         const { userName, email, password } = req.body;
+        console.log("📝 Register attempt:", email, "Username:", userName);
         
         const existingUser = await User.findOne({ email });
+        console.log("👤 User exists:", existingUser ? "Yes" : "No");
+        
         if (existingUser) {
           return res.status(400).json({ error: "User already exists!" });
         }
@@ -107,6 +116,7 @@ export default async function handler(req, res) {
         const hashedPassword = await bcrypt.hash(password, salt);
         const newUser = new User({ userName, email, password: hashedPassword });
         await newUser.save();
+        console.log("✅ User created successfully");
         
         return res.status(200).json({ message: "Successfully registered!" });
       }
