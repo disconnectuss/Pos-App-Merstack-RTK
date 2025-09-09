@@ -1,12 +1,26 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
-// Models
-const User = require('./models/User.js');
-const Category = require('./models/Category.js');
-const Product = require('./models/Product.js');
-const Invoice = require('./models/Invoice.js');
-const Table = require('./models/Table.js');
+// Models - simple inline definitions for serverless
+const UserSchema = new mongoose.Schema({
+  userName: String,
+  email: String,
+  password: String
+});
+
+const CategorySchema = new mongoose.Schema({
+  title: String
+});
+
+const ProductSchema = new mongoose.Schema({
+  title: String,
+  price: Number,
+  category: String
+});
+
+const User = mongoose.models.User || mongoose.model('User', UserSchema);
+const Category = mongoose.models.Category || mongoose.model('Category', CategorySchema);
+const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
 
 // Database connection
 let isConnected = false;
