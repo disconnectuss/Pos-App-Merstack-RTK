@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "mongoose": "^8.0.0",
-    "bcryptjs": "^2.4.3"
-  }
-}
