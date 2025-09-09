@@ -20,12 +20,17 @@ const app = express();
 let isConnected = false;
 
 const connectToDatabase = async () => {
-  if (isConnected) {
+  if (isConnected && mongoose.connection.readyState === 1) {
     console.log("Using existing database connection");
     return;
   }
 
   try {
+    // Disconnect if there's a stale connection
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.disconnect();
+    }
+    
     console.log("Attempting to connect to:", process.env.MONGO_URI ? "URI provided" : "NO URI PROVIDED");
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
@@ -70,6 +75,8 @@ app.use(async (req, res, next) => {
     if (req.path === '/health') {
       return next();
     }
+    // Force fresh connection for each request
+    isConnected = false;
     await connectToDatabase();
     next();
   } catch (error) {
