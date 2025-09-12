@@ -9,8 +9,6 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async (values) => {
-  console.log("Form values:", values)
-  console.log("Cart data:", cart)
     try {
       const invoiceData = {
         ...values,
@@ -19,7 +17,6 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
         totalAmount: (cart.total + (cart.total * cart.tax) / 100).toFixed(2),
         cartItems: cart.cartItem,
       };
-      console.log("Sending invoice data:", invoiceData);
       
       const res = await fetch(
         import.meta.env.VITE_SERVER_URL+"/api/invoices/add-invoice",
@@ -33,8 +30,6 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
       );
       
       const responseData = await res.text();
-      console.log("Response status:", res.status);
-      console.log("Response data:", responseData);
       
       if (res.status === 200) {
         message.success("Successfully created invoice.");
@@ -45,7 +40,6 @@ const InvoiceModal = ({ isModalOpen, setIsModalOpen }) => {
       }
     } catch (error) {
       message.error("Something went wrong");
-      console.log("Error:", error);
     }
   };
 

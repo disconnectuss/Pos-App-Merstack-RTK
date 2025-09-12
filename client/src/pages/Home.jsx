@@ -11,11 +11,6 @@ const Home = () => {
   const [filtered, setFiltered] = useState([]);
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
-  // console.log(categories)
-  // console.log(products)
-  // console.log(filtered) * filtered should be an array
-
-  // console.log(search)
 
   useEffect(() => {
     const getCategories = async () => {
@@ -28,9 +23,7 @@ const Home = () => {
               return { ...item, value: item.title };
             })
           );
-        // console.log(data);
       } catch (error) {
-        console.log(error);
       }
     };
     getCategories();

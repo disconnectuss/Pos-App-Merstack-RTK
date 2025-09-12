@@ -49,17 +49,14 @@ const TablePage = () => {
 
     setFiltered(result);
   }, [tables, statusFilter, capacityFilter, searchTerm]);
-  // console.log(isAddModalOpen);
-  // console.log(tables);
+  
   useEffect(() => {
     const getTables = async () => {
       try {
         const res = await fetch(import.meta.env.VITE_SERVER_URL+ "/api/tables/get-all");
         const data = await res.json();
         setTables(data);
-        // console.log(data);
       } catch (error) {
-        console.log(error);
       }
     };
     getTables();

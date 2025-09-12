@@ -7,7 +7,7 @@ const EditProducts = () => {
   const [editItem, setEditItem] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [form] = Form.useForm();
-  console.log(editItem)
+  
   // get-all-products
   useEffect(() => {
     const getProducts = async () => {
@@ -15,9 +15,7 @@ const EditProducts = () => {
         const res = await fetch(import.meta.env.VITE_SERVER_URL+ "/api/products/get-all");
         const data = await res.json();
         setProducts(data);
-        // console.log(data);
       } catch (error) {
-        console.log(error);
       }
     };
     getProducts();

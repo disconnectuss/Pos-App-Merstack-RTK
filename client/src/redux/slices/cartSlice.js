@@ -12,7 +12,8 @@ const saveCartToLocalStorage = (state) => {
 
 // Helper function to calculate total
 const calculateTotal = (cartItems) => {
-  return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const total = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  return parseFloat(total.toFixed(2));
 };
 
 const initialState = {

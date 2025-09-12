@@ -13,7 +13,6 @@ import { useEffect } from "react";
 function App() {
 
   const cart = useSelector((state)=> state.cart)
-  // console.log(cart)
    useEffect(()=> {
     localStorage.setItem('cart', JSON.stringify(cart));
    }, [cart])

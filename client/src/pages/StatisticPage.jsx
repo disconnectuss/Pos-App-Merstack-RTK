@@ -9,7 +9,6 @@ const StatisticPage = () => {
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
   const user = JSON.parse(localStorage.getItem('posUser'))
-  console.log(user)
 
   useEffect(() => {
     async function fetchData() {

@@ -10,12 +10,9 @@ const Login = () => {
   const [demoLoading, setDemoLoading] = useState(false);
   
   const onFinish = async (values) => {
-    console.log(values);
     setLoading(true);
     try {
       const apiUrl = getApiUrl("/auth/login");
-      console.log("🚀 API URL:", apiUrl);
-      console.log("🌍 Window origin:", window.location.origin);
       
       const res = await fetch(apiUrl, {
         method: "POST",
@@ -50,7 +47,6 @@ const Login = () => {
     setLoading(false)
     } catch (error) {
       message.error("Something went wrong!");
-      console.log(error);
     }
     setLoading(false)
   };
@@ -90,7 +86,6 @@ const Login = () => {
       }
     } catch (error) {
       message.error("Failed to login with demo user!");
-      console.log(error);
     }
     setDemoLoading(false);
   };

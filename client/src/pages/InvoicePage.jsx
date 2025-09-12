@@ -9,7 +9,6 @@ const InvoicePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [invoices, setInvoices] = useState();
   const [customer, setCustomer] = useState();
-  // console.log(customer)
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -125,10 +124,8 @@ const InvoicePage = () => {
           import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices"
         );
         const data = await res.json();
-        console.log("Fetched invoices:", data);
         setInvoices(data);
       } catch (error) {
-        console.log(error);
       }
     };
     getInvoices();
@@ -142,10 +139,8 @@ const InvoicePage = () => {
           import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices"
         );
         const data = await res.json();
-        console.log("Refetched invoices on focus:", data);
         setInvoices(data);
       } catch (error) {
-        console.log(error);
       }
     };
 
@@ -163,8 +158,6 @@ const InvoicePage = () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
-  // console.log(invoices);
-
   const columns = [
     {
       title: "Customer Name",

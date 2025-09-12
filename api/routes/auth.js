@@ -27,17 +27,7 @@ router.post("/register", async (req, res) => {
 //  login
 router.post("/login", async (req, res) => {
   try {
-    console.log("Login request body:", req.body);
-    console.log("Looking for user with email:", req.body.email);
-    console.log("Database connection state:", mongoose.connection.readyState);
-    console.log("Database name:", mongoose.connection.db?.databaseName);
-    
-    // Test if we can query the collection at all
-    const userCount = await User.countDocuments();
-    console.log("Total users in collection:", userCount);
-    
     const user = await User.findOne({ email: req.body.email });
-    console.log("User found:", user ? "Yes" : "No");
     
     if (!user) {
       return res.status(404).json({ error: "User not found!" });
@@ -47,7 +37,6 @@ router.post("/login", async (req, res) => {
       req.body.password,
       user.password
     );
-    console.log("Password valid:", validPassword);
     
     if (!validPassword) {
       return res.status(403).json({ error: "Invalid Password!" });
