@@ -22,7 +22,14 @@ const Login = () => {
         body: JSON.stringify(values),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
-      const user = await res.json();
+      
+      let user;
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        user = await res.json();
+      } else {
+        user = { error: "Invalid response format" };
+      }
 
       if (res.status === 200) {
         localStorage.setItem(
@@ -37,6 +44,8 @@ const Login = () => {
         message.error("User not found!");
       }else if (res.status === 403) {
         message.error("Invalid Password!");
+      } else {
+        message.error(user.error || "Login failed!");
       }
     setLoading(false)
     } catch (error) {
@@ -59,18 +68,25 @@ const Login = () => {
         body: JSON.stringify(demoCredentials),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
-      const user = await res.json();
+      
+      let user;
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        user = await res.json();
+      } else {
+        user = { error: "Invalid response format" };
+      }
 
       if (res.status === 200) {
         localStorage.setItem(
           "posUser", JSON.stringify({
-            username: user.userName,
+            username: user.username,
             email: user.email,
         }))
         message.success("Logged in as Demo User!");
         navigate("/");
       } else {
-        message.error("Demo user not available. Please contact administrator.");
+        message.error(user.error || "Demo user not available. Please contact administrator.");
       }
     } catch (error) {
       message.error("Failed to login with demo user!");

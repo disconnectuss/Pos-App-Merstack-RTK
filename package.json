@@ -1,0 +1,24 @@
+{
+  "name": "pos-app-merstack-rtk",
+  "version": "1.0.0",
+  "description": "POS Application with MERN Stack and Redux Toolkit",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd api && node server.js\" \"cd client && npm run dev\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:api": "cd api && node server.js",
+    "build": "cd client && npm run build",
+    "start": "cd client && npm run preview"
+  },
+  "keywords": [
+    "pos",
+    "mern",
+    "redux",
+    "react"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

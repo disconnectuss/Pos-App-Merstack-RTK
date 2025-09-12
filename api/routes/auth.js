@@ -1,6 +1,7 @@
 const User = require("../models/User.js");
 const router = require("express").Router();
 const bcrypt = require("bcryptjs"); // hashedPassword &security credentials
+const mongoose = require("mongoose");
 
 //create : add new users/ register
 router.post("/register", async (req, res) => {
