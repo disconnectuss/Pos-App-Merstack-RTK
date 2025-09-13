@@ -1,15 +1,4 @@
 {
-  "functions": {
-    "api/[...slug].js": {
-      "maxDuration": 30
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    }
-  ],
   "buildCommand": "cd client && npm install && npm run build",
   "outputDirectory": "client/dist"
 }

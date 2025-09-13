@@ -11,7 +11,7 @@ export const getApiUrl = (endpoint) => {
   }
   
   // Server side rendering fallback
-  const baseUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000';
+  const baseUrl = import.meta.env.VITE_SERVER_URL || window.location.origin;
   return `${baseUrl}/api${endpoint}`;
 };
 

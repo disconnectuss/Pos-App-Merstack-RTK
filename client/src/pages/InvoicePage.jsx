@@ -3,6 +3,7 @@ import Header from "../components/header/Header";
 import { Button, Input, Space, Spin, Table } from "antd";
 import PrintInvoice from "../components/invoices/PrintInvoice";
 import { SearchOutlined } from "@ant-design/icons";
+import getApiUrl from "../utils/apiUtils";
 
 
 const InvoicePage = () => {
@@ -120,9 +121,7 @@ const InvoicePage = () => {
   useEffect(() => {
     const getInvoices = async () => {
       try {
-        const res = await fetch(
-          import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices"
-        );
+        const res = await fetch(getApiUrl("/invoices/get-invoices"));
         const data = await res.json();
         setInvoices(data);
       } catch (error) {
@@ -135,9 +134,7 @@ const InvoicePage = () => {
   useEffect(() => {
     const handleFocus = async () => {
       try {
-        const res = await fetch(
-          import.meta.env.VITE_SERVER_URL+ "/api/invoices/get-invoices"
-        );
+        const res = await fetch(getApiUrl("/invoices/get-invoices"));
         const data = await res.json();
         setInvoices(data);
       } catch (error) {
